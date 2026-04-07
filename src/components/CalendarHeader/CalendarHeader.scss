@@ -1,0 +1,126 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: $space-md;
+
+  &__nav {
+    display: flex;
+    gap: $space-xs;
+  }
+
+  &__nav-btn {
+    @include flex-center;
+    width: 30px;
+    height: 30px;
+    border-radius: $radius-sm;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7); // Light grey on dark glass
+    border: 1px solid transparent;
+    transition: $transition-fast;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: baseline;
+    gap: $space-sm;
+    color: var(--theme-color); // Matches hero image theme color
+    position: relative; // crucial for absolute positioning the dropdown
+  }
+
+  &__month {
+    font-family: $font-display;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #ffffff;
+  }
+
+  &__year {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  &__jump-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: $space-xs;
+  }
+
+  &__jump-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 6px;
+    border-radius: 50%;
+    @include flex-center;
+    transition: $transition-fast;
+
+    &:hover, &.active {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &__jump-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    padding: $space-sm;
+    display: flex;
+    gap: $space-sm;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    z-index: 100;
+    animation: fadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  &__jump-select {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    font-family: $font-primary;
+    cursor: pointer;
+    outline: none;
+
+    &:hover, &:focus {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    // Native select option styling
+    option {
+      background: #1f2937; // dark solid fallback
+      color: #ffffff;
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

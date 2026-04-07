@@ -1,0 +1,110 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.yearly-events-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: $space-sm;
+    margin-bottom: $space-md;
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  &__subtitle {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: $space-sm;
+  }
+
+  .events-scroll-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+
+    /* Custom scrollbar matching dark glass */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  &__event-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__event-item {
+    display: flex;
+    align-items: center;
+    gap: $space-md;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s, border-radius 0.2s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &__event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  &__event-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    strong {
+      color: #ffffff;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    span {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.75rem;
+    }
+  }
+
+  &__empty-msg {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: $space-sm;
+  }
+}

@@ -1,0 +1,155 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.sidebar-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: $space-sm;
+    margin-bottom: $space-md;
+  }
+
+  &__title {
+    font-family: $font-display;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  &__add-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    padding: 4px;
+    border-radius: 50%;
+    @include flex-center;
+    transition: $transition-fast;
+
+    svg {
+      stroke: #ffffff;
+      color: #ffffff;
+    }
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &__month {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &__textarea {
+    flex: 1 1 50%;
+    min-height: 150px;
+    width: 100%;
+    background: transparent;
+    border: none;
+    resize: none;
+    color: #ffffff;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    
+    // Light lines for dark glass
+    background-image: linear-gradient(transparent, transparent calc(1.6rem - 1px), rgba(255, 255, 255, 0.1) calc(1.6rem - 1px), rgba(255, 255, 255, 0.1) 1.6rem);
+    background-size: 100% 1.6rem;
+    padding-top: 4px;
+    
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+      font-style: italic;
+    }
+
+    @include hide-scrollbar;
+  }
+
+  &__events {
+    margin-top: $space-md; 
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 10px;
+    
+    /* Scrollbar styling */
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  &__event-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $space-sm;
+  }
+
+  &__event-item {
+    display: flex;
+    align-items: flex-start;
+    gap: $space-sm;
+    padding: $space-sm;
+    background: rgba(255, 255, 255, 0.05); // light glass overlay
+    border-radius: $radius-sm;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  &__event-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  &__event-text {
+    display: flex;
+    flex-direction: column;
+
+    strong {
+      font-size: 0.85rem;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    span {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  &__empty-msg {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-style: italic;
+  }
+}

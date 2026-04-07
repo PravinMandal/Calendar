@@ -1,0 +1,99 @@
+// ============================================
+// global.scss — Global Reset & Base Styles
+// Physical Wall Calendar Aesthetic
+// ============================================
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// --- CSS Reset ---
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// --- Root & Body ---
+:root {
+  font-family: $font-primary;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+// --- Typography Scale ---
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-display;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+p { line-height: 1.6; }
+
+button {
+  font-family: $font-primary;
+  border: none;
+  outline: none;
+  background: none;
+  cursor: pointer;
+}
+
+input, textarea, select {
+  font-family: $font-primary;
+  outline: none;
+}
+
+.event-delete-btn {
+  color: white;
+  opacity: 0.6;
+  transition: all 0.2s;
+  cursor: pointer;
+  margin-left: auto; // pushes it far right in a flex container 
+
+  &:hover {
+    color: #ef4444; // Target red styling for explicit deletion confirmation
+    opacity: 1;
+  }
+}
+
+// --- Scrollbar Styling ---
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 3px;
+  &:hover { background: rgba(0, 0, 0, 0.30); }
+}
+
+// --- Global Keyframes ---
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
