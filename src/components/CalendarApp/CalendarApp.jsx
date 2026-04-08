@@ -9,22 +9,22 @@ import './CalendarApp.scss'
 
 const INDIAN_EVENTS = [
   // National Holidays
-  { id: 'ind-1',  title: 'Republic Day',      date: '01-26', type: 'national',   isRecurring: true },
-  { id: 'ind-2',  title: 'Independence Day',  date: '08-15', type: 'national',   isRecurring: true },
-  { id: 'ind-3',  title: 'Gandhi Jayanti',    date: '10-02', type: 'national',   isRecurring: true },
-  { id: 'ind-9',  title: 'Holi',              date: '03-14', type: 'national',   isRecurring: true },
-  { id: 'ind-10', title: 'Ambedkar Jayanti',  date: '04-14', type: 'national',   isRecurring: true },
-  { id: 'ind-12', title: 'Dussehra',          date: '10-12', type: 'national',   isRecurring: true },
-  { id: 'ind-13', title: 'Diwali',            date: '11-01', type: 'national',   isRecurring: true },
+  { id: 'ind-1', title: 'Republic Day', date: '01-26', type: 'national', isRecurring: true },
+  { id: 'ind-2', title: 'Independence Day', date: '08-15', type: 'national', isRecurring: true },
+  { id: 'ind-3', title: 'Gandhi Jayanti', date: '10-02', type: 'national', isRecurring: true },
+  { id: 'ind-9', title: 'Holi', date: '03-14', type: 'national', isRecurring: true },
+  { id: 'ind-10', title: 'Ambedkar Jayanti', date: '04-14', type: 'national', isRecurring: true },
+  { id: 'ind-12', title: 'Dussehra', date: '10-12', type: 'national', isRecurring: true },
+  { id: 'ind-13', title: 'Diwali', date: '11-01', type: 'national', isRecurring: true },
 
   // Observances
-  { id: 'ind-4',  title: 'New Year',          date: '01-01', type: 'observance', isRecurring: true },
-  { id: 'ind-5',  title: "Valentine's Day",   date: '02-14', type: 'observance', isRecurring: true },
-  { id: 'ind-6',  title: 'May Day',           date: '05-01', type: 'observance', isRecurring: true },
-  { id: 'ind-11', title: 'Yoga Day',          date: '06-21', type: 'observance', isRecurring: true },
-  { id: 'ind-7',  title: 'Teachers Day',      date: '09-05', type: 'observance', isRecurring: true },
-  { id: 'ind-14', title: "Children's Day",    date: '11-14', type: 'observance', isRecurring: true },
-  { id: 'ind-8',  title: 'Christmas',         date: '12-25', type: 'observance', isRecurring: true }
+  { id: 'ind-4', title: 'New Year', date: '01-01', type: 'observance', isRecurring: true },
+  { id: 'ind-5', title: "Valentine's Day", date: '02-14', type: 'observance', isRecurring: true },
+  { id: 'ind-6', title: 'May Day', date: '05-01', type: 'observance', isRecurring: true },
+  { id: 'ind-11', title: 'Yoga Day', date: '06-21', type: 'observance', isRecurring: true },
+  { id: 'ind-7', title: 'Teachers Day', date: '09-05', type: 'observance', isRecurring: true },
+  { id: 'ind-14', title: "Children's Day", date: '11-14', type: 'observance', isRecurring: true },
+  { id: 'ind-8', title: 'Christmas', date: '12-25', type: 'observance', isRecurring: true }
 ];
 
 const MONTH_IMAGES = [
@@ -60,18 +60,18 @@ const MONTH_IMAGES = [
 // Curated monthly themes — hero image (picsum.photos — reliable seeded IDs)
 // Paired with a matching accent color. Index 0 = January … 11 = December
 const MONTHLY_THEMES = [
-  { url: 'https://picsum.photos/seed/january/900/400',   color: '#0ea5e9', label: 'Alpine Lake' },
-  { url: 'https://picsum.photos/seed/february/900/400',  color: '#f59e0b', label: 'Desert Dunes' },
-  { url: 'https://picsum.photos/seed/forest22/900/400',  color: '#10b981', label: 'Forest Mist' },
-  { url: 'https://picsum.photos/seed/dusk99/900/400',    color: '#8b5cf6', label: 'Dusk Shore' },
-  { url: 'https://picsum.photos/seed/blossom5/900/400',  color: '#ec4899', label: 'Cherry Blossom' },
-  { url: 'https://picsum.photos/seed/golden7/900/400',   color: '#f97316', label: 'Golden Fields' },
-  { url: 'https://picsum.photos/seed/ocean14/900/400',   color: '#06b6d4', label: 'Ocean Horizon' },
-  { url: 'https://picsum.photos/seed/autumn8/900/400',   color: '#e11d48', label: 'Autumn Reds' },
-  { url: 'https://picsum.photos/seed/hills33/900/400',   color: '#16a34a', label: 'Hillside Green' },
-  { url: 'https://picsum.photos/seed/winter6/900/400',   color: '#0369a1', label: 'Winter Lake' },
-  { url: 'https://picsum.photos/seed/peaks11/900/400',   color: '#7c3aed', label: 'Twilight Peaks' },
-  { url: 'https://picsum.photos/seed/snow42/900/400',    color: '#dc2626', label: 'Snowy Pines' },
+  { url: 'https://picsum.photos/seed/january/900/400', color: '#0ea5e9', label: 'Alpine Lake' },
+  { url: 'https://picsum.photos/seed/february/900/400', color: '#f59e0b', label: 'Desert Dunes' },
+  { url: 'https://picsum.photos/seed/forest22/900/400', color: '#10b981', label: 'Forest Mist' },
+  { url: 'https://picsum.photos/seed/dusk99/900/400', color: '#8b5cf6', label: 'Dusk Shore' },
+  { url: 'https://picsum.photos/seed/blossom5/900/400', color: '#ec4899', label: 'Cherry Blossom' },
+  { url: 'https://picsum.photos/seed/golden7/900/400', color: '#f97316', label: 'Golden Fields' },
+  { url: 'https://picsum.photos/seed/ocean14/900/400', color: '#06b6d4', label: 'Ocean Horizon' },
+  { url: 'https://picsum.photos/seed/autumn8/900/400', color: '#e11d48', label: 'Autumn Reds' },
+  { url: 'https://picsum.photos/seed/hills33/900/400', color: '#16a34a', label: 'Hillside Green' },
+  { url: 'https://picsum.photos/seed/winter6/900/400', color: '#0369a1', label: 'Winter Lake' },
+  { url: 'https://picsum.photos/seed/peaks11/900/400', color: '#7c3aed', label: 'Twilight Peaks' },
+  { url: 'https://picsum.photos/seed/snow42/900/400', color: '#dc2626', label: 'Snowy Pines' },
 ]
 
 function CalendarApp() {
@@ -81,16 +81,18 @@ function CalendarApp() {
   const monthIndex = today.getMonth()
   const initialTheme = MONTHLY_THEMES[monthIndex]
 
-  const [currentMonth, setCurrentMonth]     = useState(today)
+  const [currentMonth, setCurrentMonth] = useState(today)
+  const [isFlipping, setIsFlipping] = useState(false)
+  const [oldMonthData, setOldMonthData] = useState(null)
   const [selectionStart, setSelectionStart] = useState(null)
-  const [selectionEnd, setSelectionEnd]     = useState(null)
-  const [hoverDate, setHoverDate]           = useState(null)
-  const [selectedDate, setSelectedDate]     = useState(today)
-  const [themeColor, setThemeColor]         = useState(initialTheme.color)
-  const [heroUrl, setHeroUrl]               = useState(initialTheme.url)
-  const [heroLabel, setHeroLabel]           = useState(initialTheme.label)
-  const [customEvents, setCustomEvents]     = useState([])
-  const [isModalOpen, setIsModalOpen]       = useState(false)
+  const [selectionEnd, setSelectionEnd] = useState(null)
+  const [hoverDate, setHoverDate] = useState(null)
+  const [selectedDate, setSelectedDate] = useState(today)
+  const [themeColor, setThemeColor] = useState(initialTheme.color)
+  const [heroUrl, setHeroUrl] = useState(initialTheme.url)
+  const [heroLabel, setHeroLabel] = useState(initialTheme.label)
+  const [customEvents, setCustomEvents] = useState([])
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSelectingMode, setIsSelectingMode] = useState(false)
   const [selectedEventDate, setSelectedEventDate] = useState('')
 
@@ -107,13 +109,26 @@ function CalendarApp() {
 
   // ── Handlers (wired up in later phases) ──────────────────────────────────
   const handleMonthChange = (newDate) => {
+    if (newDate.getTime() === currentMonth.getTime()) return;
+    if (isFlipping) return;
+
+    // Save old state locally
+    setOldMonthData({
+      monthDate: currentMonth,
+      themeColor: themeColor,
+      heroLabel: heroLabel,
+      image: MONTH_IMAGES[currentMonth.getMonth()]
+    });
+
+    setIsFlipping(true);
+
     setCurrentMonth(newDate)
-    
+
     // Safety clear active dragging selections on month flips
     setSelectionStart(null);
     setSelectionEnd(null);
     setIsSelectingMode(false);
-    
+
     // Auto-reset left sidebar to focus on the 1st day of the navigated month
     setSelectedDate(startOfMonth(newDate));
 
@@ -123,6 +138,12 @@ function CalendarApp() {
     setThemeColor(theme.color)
     setHeroUrl(theme.url)
     setHeroLabel(theme.label)
+
+    // Cleanup animation
+    setTimeout(() => {
+      setIsFlipping(false)
+      setOldMonthData(null)
+    }, 800);
   }
 
   const handleDateClickForEvent = (date) => {
@@ -132,7 +153,7 @@ function CalendarApp() {
       String(date.getMonth() + 1).padStart(2, '0'),
       String(date.getDate()).padStart(2, '0')
     ].join('-');
-    
+
     setSelectedEventDate(formattedDate);
     setIsModalOpen(true);
   }
@@ -206,22 +227,76 @@ function CalendarApp() {
     onReset: handleReset, themeColor,
     customEvents: allEvents, onAddCustomEvent: handleAddCustomEvent,
     onDeleteEvent: handleDeleteEvent,
-    openEventModal: () => { 
+    openEventModal: () => {
       const formattedDate = [
         selectedDate.getFullYear(),
         String(selectedDate.getMonth() + 1).padStart(2, '0'),
         String(selectedDate.getDate()).padStart(2, '0')
       ].join('-');
-      setSelectedEventDate(formattedDate); 
-      setIsModalOpen(true); 
+      setSelectedEventDate(formattedDate);
+      setIsModalOpen(true);
     }
   }
 
   const currentMonthImage = MONTH_IMAGES[currentMonth.getMonth()];
 
+  const renderCalendarPage = (monthDate, themeCol, hLabel, cImage, isOverlay = false) => {
+    const props = isOverlay 
+      ? { ...calendarProps, currentMonth: monthDate, themeColor: themeCol } 
+      : calendarProps;
+
+    return (
+      <div 
+        className={`calendar-page ${isOverlay ? 'page-flipper' : ''}`}
+        style={isOverlay ? { '--theme-color': themeCol } : {}}
+      >
+        {/* ── HERO IMAGE SECTION ──────────────────────────────────────── */}
+        <div className="calendar-hero">
+          <img
+            src={cImage}
+            alt={format(monthDate, 'MMMM')}
+            className="calendar-hero__image"
+            draggable={false}
+          />
+          <div className="calendar-hero__overlay" />
+          <div className="calendar-hero__badge">
+            <span className="calendar-hero__badge-month">
+              {monthDate.toLocaleString('default', { month: 'long' })}
+            </span>
+            <span className="calendar-hero__badge-year">
+              {monthDate.getFullYear()}
+            </span>
+          </div>
+          <span className="calendar-hero__credit">{hLabel}</span>
+        </div>
+
+        {/* ── CALENDAR BODY ───────────────────────────────────────────── */}
+        <div className="calendar-body">
+          <aside className="calendar-body__sidebar" aria-label="Notes panel">
+            <SidebarPanel {...props} />
+          </aside>
+          <div className="calendar-body__main" aria-label="Calendar grid panel">
+            <CalendarHeader {...props} />
+            <hr className="calendar-body__rule" />
+            <CalendarGrid {...props} />
+          </div>
+          <aside className="calendar-body__sidebar" aria-label="Yearly events panel">
+            <YearlyEventsPanel
+              customEvents={props.customEvents}
+              themeColor={props.themeColor}
+              currentMonth={props.currentMonth}
+              onEventClick={handleEventClick}
+              onDeleteEvent={handleDeleteEvent}
+            />
+          </aside>
+        </div>
+      </div>
+    );
+  };
+
   return (
-    <div 
-      className="app-wrapper" 
+    <div
+      className="app-wrapper"
       id="calendar-app"
       style={{ '--bg-image': `url(${currentMonthImage})` }}
     >
@@ -244,60 +319,24 @@ function CalendarApp() {
           ))}
         </div>
 
-        {/* ── HERO IMAGE SECTION ──────────────────────────────────────── */}
-        <div className="calendar-hero">
-          <img
-            src={currentMonthImage}
-            alt={format(currentMonth, 'MMMM')}
-            className="calendar-hero__image"
-            draggable={false}
-          />
-          {/* Gradient overlay at bottom so body text stays readable */}
-          <div className="calendar-hero__overlay" />
-          {/* Month label badge over image */}
-          <div className="calendar-hero__badge">
-            <span className="calendar-hero__badge-month">
-              {currentMonth.toLocaleString('default', { month: 'long' })}
-            </span>
-            <span className="calendar-hero__badge-year">
-              {currentMonth.getFullYear()}
-            </span>
-          </div>
-          {/* Image credit label */}
-          <span className="calendar-hero__credit">{heroLabel}</span>
+        <div className="calendar-page-container">
+          {/* Current (New) Static Page */}
+          {renderCalendarPage(currentMonth, themeColor, heroLabel, currentMonthImage, false)}
+
+          {/* Flipping (Old) Animated Page */}
+          {isFlipping && oldMonthData &&
+            renderCalendarPage(
+              oldMonthData.monthDate,
+              oldMonthData.themeColor,
+              oldMonthData.heroLabel,
+              oldMonthData.image,
+              true
+            )
+          }
         </div>
-
-        {/* ── CALENDAR BODY ───────────────────────────────────────────── */}
-        <div className="calendar-body">
-
-          {/* 1. Left: Notes / Sidebar */}
-          <aside className="calendar-body__sidebar" aria-label="Notes panel">
-            <SidebarPanel {...calendarProps} />
-          </aside>
-
-          {/* 2. Middle: Header + Grid */}
-          <div className="calendar-body__main" aria-label="Calendar grid panel">
-            <CalendarHeader {...calendarProps} />
-            <hr className="calendar-body__rule" />
-            <CalendarGrid {...calendarProps} />
-          </div>
-
-          {/* 3. Right: Yearly Events */}
-          <aside className="calendar-body__sidebar" aria-label="Yearly events panel">
-            <YearlyEventsPanel 
-              customEvents={allEvents} 
-              themeColor={themeColor} 
-              currentMonth={currentMonth}
-              onEventClick={handleEventClick} 
-              onDeleteEvent={handleDeleteEvent}
-            />
-          </aside>
-
-        </div>
-        {/* end .calendar-body */}
 
         {isModalOpen && (
-          <EventModal 
+          <EventModal
             onClose={() => setIsModalOpen(false)}
             onSave={handleAddCustomEvent}
             initialDate={selectedEventDate}

@@ -44,7 +44,7 @@
   max-width: 1100px;
   height: 90vh;
   min-height: 700px;
-  
+
   // Default Scale Down trick for huge screen fit mapping
   transform: scale(0.9);
   transform-origin: center center;
@@ -52,11 +52,11 @@
   @media (max-width: 768px) {
     transform: none;
   }
-  
+
   // Flex layout to make children scale to fit
   display: flex;
   flex-direction: column;
-  
+
   // Layer 2: Main Shell Light Glass Effect
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
@@ -64,11 +64,14 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px;
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
-  
   overflow: hidden;
 
   // Entrance animation
   animation: scaleIn 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
+
+  &.is-flipping {
+    animation: flip 0.6s ease-in-out;
+  }
 
   @include mobile {
     height: auto;
@@ -118,8 +121,8 @@
     border: 4px solid $spiral-color;
     border-radius: 50%;
     box-shadow:
-      inset 0 1px 2px rgba(0,0,0,0.2),
-      0 1px 3px rgba(0,0,0,0.25);
+      inset 0 1px 2px rgba(0, 0, 0, 0.2),
+      0 1px 3px rgba(0, 0, 0, 0.25);
   }
 
   // Top half of ring (above paper)
@@ -139,7 +142,13 @@
   @include mobile {
     width: 20px;
     height: 30px;
-    &::before, &::after { width: 14px; height: 14px; border-width: 3px; }
+
+    &::before,
+    &::after {
+      width: 14px;
+      height: 14px;
+      border-width: 3px;
+    }
   }
 }
 
@@ -153,7 +162,7 @@
   height: 14px;
   background: $spiral-hole;
   border-radius: 50%;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.15);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.15);
   z-index: 2;
 }
 
@@ -182,7 +191,7 @@
     background: linear-gradient(to bottom, #e0e0e0, #a0a0a0);
     border-radius: 3px 3px 0 0;
     z-index: 15;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
 }
 
@@ -203,19 +212,22 @@
 // Gradient fade at bottom — blends hero into glass panels
 .calendar-hero__overlay {
   position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 150px; /* Increased height for a smoother fade */
-  
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 150px;
+  /* Increased height for a smoother fade */
+
   /* The actual blur */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  
+
   /* The gradient mask that makes the blur fade */
   mask-image: linear-gradient(to top, black 20%, transparent 100%);
   -webkit-mask-image: linear-gradient(to top, black 20%, transparent 100%);
-  
+
   /* A very subtle dark gradient to ensure text readability */
-  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
   pointer-events: none;
 }
 
@@ -241,8 +253,8 @@
   font-weight: 800;
   color: $paper-white;
   text-shadow:
-    0 2px 8px rgba(0,0,0,0.45),
-    0 0 30px rgba(0,0,0,0.2);
+    0 2px 8px rgba(0, 0, 0, 0.45),
+    0 0 30px rgba(0, 0, 0, 0.2);
   letter-spacing: -0.5px;
   line-height: 1;
 
@@ -255,8 +267,8 @@
   font-family: $font-display;
   font-size: 1.05rem;
   font-weight: 400;
-  color: rgba(255,255,255,0.85);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  color: rgba(255, 255, 255, 0.85);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
   letter-spacing: 3px;
   margin-top: 2px;
 
@@ -272,7 +284,7 @@
   right: $space-md;
   font-size: 0.65rem;
   font-weight: 400;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255, 255, 255, 0.55);
   letter-spacing: 1px;
   text-transform: uppercase;
   z-index: 2;
@@ -283,7 +295,7 @@
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr) 250px;
   align-items: stretch;
-  border-top: 1px solid rgba(255, 255, 255, 0.2); 
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
   flex: 1; // Occupies remaining 60%
   overflow: hidden; // Keep constraints tight here
   padding: $space-md;
@@ -303,7 +315,7 @@
   flex-shrink: 0; // Prevent squishing
 
   padding: $space-lg $space-md $space-lg $space-lg;
-  
+
   // Layer 3: Dark Glass
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(24px);
@@ -313,13 +325,13 @@
   color: #fff;
   box-sizing: border-box; // Fix grid overflow
   overflow: hidden;
-  
+
   display: flex;
   flex-direction: column;
 
   @include mobile {
-    height: auto; 
-    min-height: 400px; 
+    height: auto;
+    min-height: 400px;
     width: 100%;
   }
 }
@@ -334,7 +346,7 @@
   flex: 1;
   min-width: 0;
   padding: $space-lg $space-xl $space-xl $space-lg;
-  
+
   // Layer 3: Dark Glass
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(24px);
@@ -351,8 +363,8 @@
   padding-bottom: 20px; // ensure adequate padding at bottom
 
   @include mobile {
-    height: auto; 
-    min-height: 400px; 
+    height: auto;
+    min-height: 400px;
     width: 100%;
   }
 }
@@ -407,8 +419,61 @@
     opacity: 0;
     transform: rotate(-0.3deg) translateY(-24px) scale(0.98);
   }
+
   to {
     opacity: 1;
     transform: rotate(-0.3deg) translateY(0) scale(1);
+  }
+}
+
+.calendar-page-container {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  perspective: 2500px;
+  min-height: 0;
+}
+
+.calendar-page {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  transform-style: preserve-3d;
+  
+  &.page-flipper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50; 
+    transform-origin: top center; 
+    pointer-events: none; 
+    backface-visibility: hidden;
+    background: rgba(30, 30, 30, 0.95);
+    border-radius: 0 0 24px 24px;
+    
+    animation: simplePageFlip 0.8s ease-in-out forwards;
+  }
+}
+
+@keyframes simplePageFlip {
+  0% {
+    transform: rotateX(0deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+  }
+  40% {
+    transform: rotateX(70deg) translateZ(80px);
+    opacity: 1;
+    filter: drop-shadow(0 40px 30px rgba(0,0,0,0.6));
+  }
+  100% {
+    transform: rotateX(180deg) translateZ(0);
+    opacity: 0;
   }
 }
