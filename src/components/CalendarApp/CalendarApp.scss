@@ -451,29 +451,55 @@
     right: 0;
     bottom: 0;
     z-index: 50; 
-    transform-origin: top center; 
+    transform-origin: top left; 
     pointer-events: none; 
     backface-visibility: hidden;
     background: rgba(30, 30, 30, 0.95);
     border-radius: 0 0 24px 24px;
     
-    animation: simplePageFlip 0.8s ease-in-out forwards;
+    &.tear-off {
+      animation: tear-animation 0.8s linear forwards;
+    }
+
+    &.reattach {
+      animation: attach-animation 0.8s linear forwards;
+    }
   }
 }
 
-@keyframes simplePageFlip {
-  0% {
-    transform: rotateX(0deg);
-    opacity: 1;
+@keyframes tear-animation {
+  0% { 
+    transform: translate(0, 0) rotate(0deg); 
+    opacity: 1; 
     filter: drop-shadow(0 0 0 rgba(0,0,0,0));
   }
-  40% {
-    transform: rotateX(70deg) translateZ(80px);
-    opacity: 1;
-    filter: drop-shadow(0 40px 30px rgba(0,0,0,0.6));
+  20% { 
+    transform: translate(10px, 10px) rotate(4deg); 
+    opacity: 1; 
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
   }
-  100% {
-    transform: rotateX(180deg) translateZ(0);
-    opacity: 0;
+  70% { 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translate(50px, 800px) rotate(15deg); 
+    opacity: 0; 
+  }
+}
+
+@keyframes attach-animation {
+  0% { 
+    transform: translate(50px, 800px) rotate(15deg); 
+    opacity: 0; 
+    filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3));
+  }
+  80% { 
+    transform: translate(10px, 10px) rotate(4deg); 
+    opacity: 1;
+  }
+  100% { 
+    transform: translate(0, 0) rotate(0deg); 
+    opacity: 1; 
+    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
   }
 }

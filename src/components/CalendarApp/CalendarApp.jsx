@@ -82,8 +82,7 @@ function CalendarApp() {
   const initialTheme = MONTHLY_THEMES[monthIndex]
 
   const [currentMonth, setCurrentMonth] = useState(today)
-  const [isFlipping, setIsFlipping] = useState(false)
-  const [oldMonthData, setOldMonthData] = useState(null)
+  const [flipAnimation, setFlipAnimation] = useState(null)
   const [selectionStart, setSelectionStart] = useState(null)
   const [selectionEnd, setSelectionEnd] = useState(null)
   const [hoverDate, setHoverDate] = useState(null)
@@ -110,40 +109,61 @@ function CalendarApp() {
   // ── Handlers (wired up in later phases) ──────────────────────────────────
   const handleMonthChange = (newDate) => {
     if (newDate.getTime() === currentMonth.getTime()) return;
-    if (isFlipping) return;
+    if (flipAnimation) return;
 
-    // Save old state locally
-    setOldMonthData({
-      monthDate: currentMonth,
-      themeColor: themeColor,
-      heroLabel: heroLabel,
-      image: MONTH_IMAGES[currentMonth.getMonth()]
-    });
-
-    setIsFlipping(true);
-
-    setCurrentMonth(newDate)
+    const isNext = newDate > currentMonth;
+    const newIdx = newDate.getMonth();
+    const newTheme = MONTHLY_THEMES[newIdx];
 
     // Safety clear active dragging selections on month flips
     setSelectionStart(null);
     setSelectionEnd(null);
     setIsSelectingMode(false);
-
-    // Auto-reset left sidebar to focus on the 1st day of the navigated month
     setSelectedDate(startOfMonth(newDate));
 
-    // Sync theme to new month
-    const idx = newDate.getMonth()
-    const theme = MONTHLY_THEMES[idx]
-    setThemeColor(theme.color)
-    setHeroUrl(theme.url)
-    setHeroLabel(theme.label)
+    if (isNext) {
+      // ── TEAR OFF (Next) ──
+      setFlipAnimation({
+        type: 'tear-off',
+        data: {
+          monthDate: currentMonth,
+          themeColor: themeColor,
+          heroLabel: heroLabel,
+          image: MONTH_IMAGES[currentMonth.getMonth()]
+        }
+      });
 
-    // Cleanup animation
-    setTimeout(() => {
-      setIsFlipping(false)
-      setOldMonthData(null)
-    }, 800);
+      // Update main background immediately
+      setCurrentMonth(newDate);
+      setThemeColor(newTheme.color);
+      setHeroUrl(newTheme.url);
+      setHeroLabel(newTheme.label);
+
+      setTimeout(() => {
+        setFlipAnimation(null);
+      }, 800);
+    } else {
+      // ── REATTACH (Prev) ──
+      // Render the incoming new month overlay flying up
+      setFlipAnimation({
+        type: 'reattach',
+        data: {
+          monthDate: newDate,
+          themeColor: newTheme.color,
+          heroLabel: newTheme.label,
+          image: MONTH_IMAGES[newIdx]
+        }
+      });
+
+      // Update the main background only *after* animation attaches
+      setTimeout(() => {
+        setCurrentMonth(newDate);
+        setThemeColor(newTheme.color);
+        setHeroUrl(newTheme.url);
+        setHeroLabel(newTheme.label);
+        setFlipAnimation(null);
+      }, 800);
+    }
   }
 
   const handleDateClickForEvent = (date) => {
@@ -240,14 +260,15 @@ function CalendarApp() {
 
   const currentMonthImage = MONTH_IMAGES[currentMonth.getMonth()];
 
-  const renderCalendarPage = (monthDate, themeCol, hLabel, cImage, isOverlay = false) => {
+  const renderCalendarPage = (monthDate, themeCol, hLabel, cImage, overlayType) => {
+    const isOverlay = !!overlayType;
     const props = isOverlay 
       ? { ...calendarProps, currentMonth: monthDate, themeColor: themeCol } 
       : calendarProps;
 
     return (
       <div 
-        className={`calendar-page ${isOverlay ? 'page-flipper' : ''}`}
+        className={`calendar-page ${isOverlay ? 'page-flipper ' + overlayType : ''}`}
         style={isOverlay ? { '--theme-color': themeCol } : {}}
       >
         {/* ── HERO IMAGE SECTION ──────────────────────────────────────── */}
@@ -321,16 +342,16 @@ function CalendarApp() {
 
         <div className="calendar-page-container">
           {/* Current (New) Static Page */}
-          {renderCalendarPage(currentMonth, themeColor, heroLabel, currentMonthImage, false)}
+          {renderCalendarPage(currentMonth, themeColor, heroLabel, currentMonthImage, null)}
 
-          {/* Flipping (Old) Animated Page */}
-          {isFlipping && oldMonthData &&
+          {/* Flipping Animated Page (Overlay) */}
+          {flipAnimation &&
             renderCalendarPage(
-              oldMonthData.monthDate,
-              oldMonthData.themeColor,
-              oldMonthData.heroLabel,
-              oldMonthData.image,
-              true
+              flipAnimation.data.monthDate,
+              flipAnimation.data.themeColor,
+              flipAnimation.data.heroLabel,
+              flipAnimation.data.image,
+              flipAnimation.type
             )
           }
         </div>
