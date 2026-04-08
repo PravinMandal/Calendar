@@ -1,10 +1,46 @@
 import React, { useState, useEffect } from 'react'
+import { isValid, startOfMonth, format } from 'date-fns'
 import SidebarPanel from '../SidebarPanel/SidebarPanel'
 import YearlyEventsPanel from '../YearlyEventsPanel/YearlyEventsPanel'
 import CalendarHeader from '../CalendarHeader/CalendarHeader'
 import CalendarGrid from '../CalendarGrid/CalendarGrid'
 import EventModal from '../EventModal/EventModal'
 import './CalendarApp.scss'
+
+const INDIAN_EVENTS = [
+  // National Holidays
+  { id: 'ind-1',  title: 'Republic Day',      date: '01-26', type: 'national',   isRecurring: true },
+  { id: 'ind-2',  title: 'Independence Day',  date: '08-15', type: 'national',   isRecurring: true },
+  { id: 'ind-3',  title: 'Gandhi Jayanti',    date: '10-02', type: 'national',   isRecurring: true },
+  { id: 'ind-9',  title: 'Holi',              date: '03-14', type: 'national',   isRecurring: true },
+  { id: 'ind-10', title: 'Ambedkar Jayanti',  date: '04-14', type: 'national',   isRecurring: true },
+  { id: 'ind-12', title: 'Dussehra',          date: '10-12', type: 'national',   isRecurring: true },
+  { id: 'ind-13', title: 'Diwali',            date: '11-01', type: 'national',   isRecurring: true },
+
+  // Observances
+  { id: 'ind-4',  title: 'New Year',          date: '01-01', type: 'observance', isRecurring: true },
+  { id: 'ind-5',  title: "Valentine's Day",   date: '02-14', type: 'observance', isRecurring: true },
+  { id: 'ind-6',  title: 'May Day',           date: '05-01', type: 'observance', isRecurring: true },
+  { id: 'ind-11', title: 'Yoga Day',          date: '06-21', type: 'observance', isRecurring: true },
+  { id: 'ind-7',  title: 'Teachers Day',      date: '09-05', type: 'observance', isRecurring: true },
+  { id: 'ind-14', title: "Children's Day",    date: '11-14', type: 'observance', isRecurring: true },
+  { id: 'ind-8',  title: 'Christmas',         date: '12-25', type: 'observance', isRecurring: true }
+];
+
+const MONTH_IMAGES = [
+  'https://images.unsplash.com/photo-1445543949571-ffc3e0e2f55e?auto=format&fit=crop&q=80&w=2000', // Jan
+  'https://images.unsplash.com/photo-1433162653888-a571db5ccccf?auto=format&fit=crop&q=80&w=2000', // Feb
+  'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&q=80&w=2000', // Mar
+  'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&q=80&w=2000', // Apr
+  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000', // May
+  'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&q=80&w=2000', // Jun
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000', // Jul
+  'https://images.unsplash.com/photo-1440778303588-435521a205bc?auto=format&fit=crop&q=80&w=2000', // Aug
+  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000', // Sep
+  'https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&q=80&w=2000', // Oct
+  'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?auto=format&fit=crop&q=80&w=2000', // Nov
+  'https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&q=80&w=2000'  // Dec
+];
 
 /**
  * CalendarApp — Physical wall calendar root component
@@ -77,6 +113,9 @@ function CalendarApp() {
     setSelectionStart(null);
     setSelectionEnd(null);
     setIsSelectingMode(false);
+    
+    // Auto-reset left sidebar to focus on the 1st day of the navigated month
+    setSelectedDate(startOfMonth(newDate));
 
     // Sync theme to new month
     const idx = newDate.getMonth()
@@ -104,19 +143,41 @@ function CalendarApp() {
     setHoverDate(null)
   }
 
-  const handleEventClick = (eventDateStr) => {
-    // Parse the 'YYYY-MM-DD' back into true javascript Date object
-    const [year, month, day] = eventDateStr.split('-');
-    const parsedDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
-    
-    // Jump calendar view
-    handleMonthChange(parsedDate);
-    // Auto select the day
-    setSelectedDate(parsedDate);
-    // Drop any current selections
-    setSelectionStart(null);
-    setSelectionEnd(null);
-  }
+  const handleTodayClick = () => {
+    const now = new Date();
+    setCurrentMonth(now);
+    setSelectedDate(now);
+    handleReset();
+  };
+
+  const handleEventClick = (event) => {
+    let targetDate;
+    const viewedYear = currentMonth.getFullYear();
+
+    if (event.isRecurring || event.type === 'national' || event.type === 'observance') {
+      // It's a recurring event. Safely extract Month and Day.
+      let month, day;
+      if (typeof event.date === 'string' && event.date.length === 5 && event.date.includes('-')) {
+        // Hardcoded 'MM-dd' format
+        [month, day] = event.date.split('-');
+      } else {
+        // User created recurring event (ISO string)
+        const d = new Date(event.date);
+        month = d.getMonth() + 1;
+        day = d.getDate();
+      }
+      // Construct target date using the CURRENTLY VIEWED year
+      targetDate = new Date(viewedYear, parseInt(month) - 1, parseInt(day));
+    } else {
+      // One-time event. Jump to its exact specific year and date.
+      targetDate = new Date(event.date);
+    }
+
+    if (isValid(targetDate)) {
+      handleMonthChange(targetDate);
+      setSelectedDate(targetDate);
+    }
+  };
 
   const handleAddCustomEvent = (newEvent) => {
     const updatedEvents = [...customEvents, newEvent];
@@ -133,15 +194,17 @@ function CalendarApp() {
     localStorage.setItem('calendar-custom-events', JSON.stringify(updatedEvents));
   };
 
+  const allEvents = [...INDIAN_EVENTS, ...customEvents];
+
   // Shared props object passed to children in later phases
   const calendarProps = {
-    currentMonth, onMonthChange: handleMonthChange,
+    currentMonth, onMonthChange: handleMonthChange, onToday: handleTodayClick,
     selectionStart, selectionEnd, hoverDate, setSelectionStart, setSelectionEnd, setHoverDate,
     selectedDate, setSelectedDate,
     isSelectingMode, setIsSelectingMode,
     onDateClickForEvent: handleDateClickForEvent,
     onReset: handleReset, themeColor,
-    customEvents, onAddCustomEvent: handleAddCustomEvent,
+    customEvents: allEvents, onAddCustomEvent: handleAddCustomEvent,
     onDeleteEvent: handleDeleteEvent,
     openEventModal: () => { 
       const formattedDate = [
@@ -154,11 +217,13 @@ function CalendarApp() {
     }
   }
 
+  const currentMonthImage = MONTH_IMAGES[currentMonth.getMonth()];
+
   return (
     <div 
       className="app-wrapper" 
       id="calendar-app"
-      style={{ '--bg-image': `url(${heroUrl})` }}
+      style={{ '--bg-image': `url(${currentMonthImage})` }}
     >
 
       {/* ── WALL CALENDAR ─────────────────────────────────────────────── */}
@@ -182,8 +247,8 @@ function CalendarApp() {
         {/* ── HERO IMAGE SECTION ──────────────────────────────────────── */}
         <div className="calendar-hero">
           <img
-            src={heroUrl}
-            alt={`${heroLabel} — monthly hero`}
+            src={currentMonthImage}
+            alt={format(currentMonth, 'MMMM')}
             className="calendar-hero__image"
             draggable={false}
           />
@@ -220,10 +285,11 @@ function CalendarApp() {
           {/* 3. Right: Yearly Events */}
           <aside className="calendar-body__sidebar" aria-label="Yearly events panel">
             <YearlyEventsPanel 
-              customEvents={customEvents} 
+              customEvents={allEvents} 
               themeColor={themeColor} 
               currentMonth={currentMonth}
               onEventClick={handleEventClick} 
+              onDeleteEvent={handleDeleteEvent}
             />
           </aside>
 

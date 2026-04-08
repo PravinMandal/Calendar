@@ -1,10 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon } from 'lucide-react';
 import { subMonths, addMonths, format, setMonth, setYear } from 'date-fns';
 import './CalendarHeader.scss';
 
-export default function CalendarHeader({ currentMonth, onMonthChange }) {
+export default function CalendarHeader({ currentMonth, onMonthChange, onToday }) {
   const [isJumpOpen, setIsJumpOpen] = useState(false);
+
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsJumpOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   const handlePrevMonth = () => onMonthChange(subMonths(currentMonth, 1));
   const handleNextMonth = () => onMonthChange(addMonths(currentMonth, 1));
@@ -43,11 +57,15 @@ export default function CalendarHeader({ currentMonth, onMonthChange }) {
         </button>
       </div>
 
+      <button className="today-btn" onClick={onToday}>
+        Today
+      </button>
+
       <div className="calendar-header__title">
         <span className="calendar-header__month">{format(currentMonth, 'MMMM')}</span>
         <span className="calendar-header__year">{format(currentMonth, 'yyyy')}</span>
         
-        <div className="calendar-header__jump-container">
+        <div className="calendar-header__jump-container" ref={dropdownRef}>
           <button 
             className={`calendar-header__jump-btn ${isJumpOpen ? 'active' : ''}`}
             onClick={() => setIsJumpOpen(!isJumpOpen)}

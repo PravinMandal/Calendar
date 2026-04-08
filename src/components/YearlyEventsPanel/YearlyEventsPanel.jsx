@@ -10,9 +10,17 @@ export default function YearlyEventsPanel({ customEvents = [], currentMonth, the
   // Filter events to only show ones in the currently viewed month
   const upcomingEvents = sortedEvents.filter(ev => {
     if (!ev.date) return false;
-    const [year, month, day] = ev.date.split('-');
-    const evDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
-    return isSameMonth(evDate, currentMonth);
+    
+    let evMonthIdx;
+    if (ev.isRecurring && ev.date.length === 5) {
+      // MM-dd pattern
+      evMonthIdx = parseInt(ev.date.split('-')[0], 10) - 1;
+    } else {
+      // YYYY-MM-DD pattern
+      evMonthIdx = parseInt(ev.date.split('-')[1], 10) - 1;
+    }
+
+    return evMonthIdx === currentMonth.getMonth();
   });
 
   return (
@@ -34,15 +42,16 @@ export default function YearlyEventsPanel({ customEvents = [], currentMonth, the
               {upcomingEvents.map((eventObj, idx) => {
                 const eventDate = new Date(eventObj.date + 'T00:00:00'); 
                 return (
-                  <li key={`upc-${idx}`} className="yearly-events-panel__event-item event-item" onClick={() => onEventClick(eventObj.date)}>
+                  <li key={`upc-${idx}`} className="yearly-events-panel__event-item event-item" onClick={() => onEventClick(eventObj)}>
                     <span 
                       className="yearly-events-panel__event-dot" 
                       style={{ backgroundColor: themeColor }}
                     ></span>
                     <div className="yearly-events-panel__event-text">
                       <strong>{eventObj.title}</strong>
-                      <span>{format(eventDate, 'MMM d, yyyy')}</span>
+                      <span>{eventObj.date.length === 5 ? eventObj.date : format(eventDate, 'MMM d, yyyy')}</span>
                     </div>
+                    {eventObj.type === 'user' && (
                     <button 
                       className="event-delete-btn"
                       onClick={(e) => {
@@ -53,6 +62,7 @@ export default function YearlyEventsPanel({ customEvents = [], currentMonth, the
                     >
                       <Trash2 size={16} />
                     </button>
+                    )}
                   </li>
                 );
               })}
@@ -70,15 +80,16 @@ export default function YearlyEventsPanel({ customEvents = [], currentMonth, the
               {sortedEvents.map((eventObj, idx) => {
                 const eventDate = new Date(eventObj.date + 'T00:00:00'); 
                 return (
-                  <li key={`yr-${idx}`} className="yearly-events-panel__event-item event-item" onClick={() => onEventClick(eventObj.date)}>
+                  <li key={`yr-${idx}`} className="yearly-events-panel__event-item event-item" onClick={() => onEventClick(eventObj)}>
                     <span 
                       className="yearly-events-panel__event-dot" 
                       style={{ backgroundColor: themeColor }}
                     ></span>
                     <div className="yearly-events-panel__event-text">
                       <strong>{eventObj.title}</strong>
-                      <span>{format(eventDate, 'MMM d, yyyy')}</span>
+                      <span>{eventObj.date.length === 5 ? eventObj.date : format(eventDate, 'MMM d, yyyy')}</span>
                     </div>
+                    {eventObj.type === 'user' && (
                     <button 
                       className="event-delete-btn"
                       onClick={(e) => {
@@ -89,6 +100,7 @@ export default function YearlyEventsPanel({ customEvents = [], currentMonth, the
                     >
                       <Trash2 size={16} />
                     </button>
+                    )}
                   </li>
                 );
               })}

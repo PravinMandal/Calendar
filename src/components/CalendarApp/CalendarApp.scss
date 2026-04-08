@@ -45,6 +45,14 @@
   height: 90vh;
   min-height: 700px;
   
+  // Default Scale Down trick for huge screen fit mapping
+  transform: scale(0.9);
+  transform-origin: center center;
+
+  @media (max-width: 768px) {
+    transform: none;
+  }
+  
   // Flex layout to make children scale to fit
   display: flex;
   flex-direction: column;
@@ -195,13 +203,19 @@
 // Gradient fade at bottom — blends hero into glass panels
 .calendar-hero__overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4));
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  bottom: 0; left: 0; right: 0;
+  height: 150px; /* Increased height for a smoother fade */
+  
+  /* The actual blur */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  /* The gradient mask that makes the blur fade */
+  mask-image: linear-gradient(to top, black 20%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to top, black 20%, transparent 100%);
+  
+  /* A very subtle dark gradient to ensure text readability */
+  background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
   pointer-events: none;
 }
 

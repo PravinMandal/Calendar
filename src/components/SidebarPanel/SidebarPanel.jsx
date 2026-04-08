@@ -29,21 +29,59 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
   const monthHolidays = getHolidaysForMonth(currentMonth.getMonth());
   const selectedDateHolidays = monthHolidays.filter(h => h.date === safeDate.getDate() && currentMonth.getMonth() === safeDate.getMonth());
   
-  // Filter custom events to ONLY those matching safeDate
-  const selectedDateEvents = customEvents.filter(ev => {
-    if (!ev.date) return false;
-    const [evYear, evMonth, evDay] = ev.date.split('-');
-    const evDateObj = new Date(parseInt(evYear, 10), parseInt(evMonth, 10) - 1, parseInt(evDay, 10));
-    return isSameDay(evDateObj, safeDate);
-  }).map(ev => ({
+  // Filter events to ONLY those matching safeDate
+  const selectedDateEvents = [];
+  
+  customEvents.forEach(ev => {
+    if (!ev.date) return;
+    
+    if (ev.isRecurring) {
+      const evMMdd = ev.date.length === 5 ? ev.date : format(new Date(ev.date), 'MM-dd');
+      if (format(safeDate, 'MM-dd') === evMMdd) {
+        selectedDateEvents.push(ev);
+      }
+    } else {
+      const [evYear, evMonth, evDay] = ev.date.split('-');
+      const evDateObj = new Date(parseInt(evYear, 10), parseInt(evMonth, 10) - 1, parseInt(evDay, 10));
+      if (isSameDay(evDateObj, safeDate)) {
+        selectedDateEvents.push(ev);
+      }
+    }
+  });
+
+  const parsedEvents = selectedDateEvents.map(ev => ({
     id: ev.id,
     name: ev.title,
-    date: parseInt(ev.date.split('-')[2], 10),
+    date: safeDate.getDate(),
     month: safeDate.getMonth(),
-    isCustom: true
+    type: ev.type,
+    isCustom: ev.type === 'user'
   }));
 
-  const allSelectedEvents = [...selectedDateHolidays, ...selectedDateEvents].sort((a, b) => a.date - b.date);
+  const allSelectedEvents = [...selectedDateHolidays, ...parsedEvents].sort((a, b) => a.date - b.date);
+
+  const uniqueEvents = allSelectedEvents.reduce((acc, current) => {
+    // Both Indian holidays (.name) and parsed custom events use the .name property here
+    const titleToUse = current.name || '';
+    const normalizedTitle = titleToUse.toLowerCase().replace(' day', '').trim();
+    
+    const duplicateIndex = acc.findIndex(item => {
+      const itemTitle = item.name || '';
+      return itemTitle.toLowerCase().replace(' day', '').trim() === normalizedTitle;
+    });
+    
+    if (duplicateIndex === -1) {
+      return acc.concat([current]);
+    } else {
+      // Prefer user-created events over hardcoded ones if there's a duplicate
+      if (current.type === 'user') {
+        const newAcc = [...acc];
+        newAcc[duplicateIndex] = current;
+        return newAcc;
+      }
+      return acc;
+    }
+  }, []);
 
   return (
     <div className="sidebar-panel">
@@ -61,7 +99,7 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
 
       <textarea
         className="sidebar-panel__textarea"
-        placeholder="Jot down notes, goals, or memos for this month..."
+        placeholder="Notes, goals, or reminders for this month..."
         value={notes}
         onChange={handleNotesChange}
         aria-label="Monthly notes"
@@ -85,9 +123,9 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
           </button>
         </div>
         
-        {allSelectedEvents.length > 0 ? (
+        {uniqueEvents.length > 0 ? (
           <ul className="sidebar-panel__event-list">
-            {allSelectedEvents.map((eventObj, idx) => (
+            {uniqueEvents.map((eventObj, idx) => (
               <li key={idx} className="sidebar-panel__event-item">
                 <span 
                   className="sidebar-panel__event-dot" 
@@ -97,7 +135,7 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
                   <strong>{eventObj.name}</strong>
                   <span>{format(safeDate, 'MMM d')}</span>
                 </div>
-                {eventObj.isCustom && (
+                {eventObj.type === 'user' && (
                   <button 
                     className="event-delete-btn"
                     onClick={(e) => {

@@ -120,11 +120,31 @@ export default function CalendarGrid({
           if (isStart && selectionEnd) classNames += ' calendar-grid__day--range-start';
           if (isEnd) classNames += ' calendar-grid__day--range-end';
 
-          const dayHolidays = getHolidaysForDate(date);
-          const dayCustomEvents = customEvents.filter(e => e.date === format(date, 'yyyy-MM-dd'));
-          
-          const allEvents = [...dayHolidays, ...dayCustomEvents];
+          const getEventsForDay = (day) => {
+            const dayEvents = [];
 
+            // Filter Custom Events correctly
+            customEvents.forEach(event => {
+              if (event.isRecurring) {
+                // If recurring, match MM-dd
+                const evMMdd = format(new Date(event.date), 'MM-dd');
+                const dayMMdd = format(day, 'MM-dd');
+                // Both handle MM-dd naturally or mapping strings natively
+                if (evMMdd === dayMMdd || event.date === dayMMdd) {
+                  dayEvents.push(event);
+                }
+              } else {
+                // Non recurring
+                if (safeIsSameDay(day, new Date(event.date))) {
+                  dayEvents.push(event);
+                }
+              }
+            });
+
+            return dayEvents;
+          };
+
+          const allEvents = getEventsForDay(date);
           const handleDateInteraction = (e) => {
             if (!isCurrentMonth) return;
             clearTimeout(window._clickTimer);
@@ -167,16 +187,15 @@ export default function CalendarGrid({
               className={classNames}
               onClick={handleDateInteraction}
               onMouseEnter={handleMouseEnter}
-              title={dayHolidays.map(h => h.name).join(', ')} // Tooltip for the holiday
             >
               <span className="calendar-grid__day-number">
                 {format(date, 'd')}
               </span>
               
-              <div className="calendar-grid__day-markers">
-                {allEvents.length > 0 && (
-                  <span className={`calendar-grid__holiday-dot ${dayCustomEvents.length > 0 ? 'custom' : ''}`} aria-label="Holiday indicator"></span>
-                )}
+              <div className="event-dots-container">
+                {allEvents.map((ev, i) => (
+                  <span key={i} className={`event-dot dot-${ev.type}`} title={ev.title}></span>
+                ))}
               </div>
             </div>
           );
