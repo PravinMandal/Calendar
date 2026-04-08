@@ -5,6 +5,7 @@ import './CalendarHeader.scss';
 
 export default function CalendarHeader({ currentMonth, onMonthChange, onToday }) {
   const [isJumpOpen, setIsJumpOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState(null);
 
   const dropdownRef = useRef(null);
 
@@ -12,6 +13,7 @@ export default function CalendarHeader({ currentMonth, onMonthChange, onToday })
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setIsJumpOpen(false);
+        setOpenMenu(null);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -23,12 +25,12 @@ export default function CalendarHeader({ currentMonth, onMonthChange, onToday })
   const handlePrevMonth = () => onMonthChange(subMonths(currentMonth, 1));
   const handleNextMonth = () => onMonthChange(addMonths(currentMonth, 1));
 
-  const handleJumpMonth = (e) => {
-    onMonthChange(setMonth(currentMonth, parseInt(e.target.value)));
+  const handleJumpMonth = (val) => {
+    onMonthChange(setMonth(currentMonth, val));
   };
 
-  const handleJumpYear = (e) => {
-    onMonthChange(setYear(currentMonth, parseInt(e.target.value)));
+  const handleJumpYear = (val) => {
+    onMonthChange(setYear(currentMonth, val));
   };
 
   const months = Array.from({ length: 12 }, (_, i) => {
@@ -76,24 +78,51 @@ export default function CalendarHeader({ currentMonth, onMonthChange, onToday })
           
           {isJumpOpen && (
             <div className="calendar-header__jump-dropdown">
-              <select 
-                value={currentMonth.getMonth()} 
-                onChange={handleJumpMonth}
-                className="calendar-header__jump-select"
-              >
-                {months.map(m => (
-                  <option key={m.value} value={m.value}>{m.label}</option>
-                ))}
-              </select>
-              <select 
-                value={currentMonth.getFullYear()} 
-                onChange={handleJumpYear}
-                className="calendar-header__jump-select"
-              >
-                {years.map(y => (
-                  <option key={y} value={y}>{y}</option>
-                ))}
-              </select>
+              
+              <div className="custom-dropdown">
+                <div 
+                  className="custom-dropdown__trigger"
+                  onClick={() => setOpenMenu(openMenu === 'month' ? null : 'month')}
+                >
+                  {format(currentMonth, 'MMMM')}
+                </div>
+                {openMenu === 'month' && (
+                  <ul className="custom-dropdown__menu">
+                    {months.map(m => (
+                      <li 
+                        key={m.value}
+                        className={currentMonth.getMonth() === m.value ? 'selected' : ''}
+                        onClick={() => { handleJumpMonth(m.value); setOpenMenu(null); setIsJumpOpen(false); }}
+                      >
+                        {m.label}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <div className="custom-dropdown">
+                <div 
+                  className="custom-dropdown__trigger"
+                  onClick={() => setOpenMenu(openMenu === 'year' ? null : 'year')}
+                >
+                  {currentMonth.getFullYear()}
+                </div>
+                {openMenu === 'year' && (
+                  <ul className="custom-dropdown__menu year-menu">
+                    {years.map(y => (
+                      <li 
+                        key={y}
+                        className={currentMonth.getFullYear() === y ? 'selected' : ''}
+                        onClick={() => { handleJumpYear(y); setOpenMenu(null); setIsJumpOpen(false); }}
+                      >
+                        {y}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
             </div>
           )}
         </div>

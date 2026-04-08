@@ -83,40 +83,84 @@
     position: absolute;
     top: calc(100% + 12px);
     right: 0;
-    // New Glassmorphic Treatment
-    background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    padding: $space-sm;
     display: flex;
     gap: $space-sm;
     z-index: 100;
     animation: fadeIn 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
+}
 
-  &__jump-select {
-    background: transparent;
-    color: #ffffff;
+/* Custom Dropdowns */
+.custom-dropdown {
+  position: relative;
+  
+  &__trigger {
+    background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    padding: 6px 10px;
-    font-size: 0.85rem;
-    font-family: $font-primary;
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    color: white;
+    padding: 8px 16px;
+    font-size: 0.9rem;
     cursor: pointer;
-    outline: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
 
-    &:hover, &:focus {
+    &:hover {
       background: rgba(255, 255, 255, 0.15);
-      border-color: rgba(255, 255, 255, 0.4);
     }
+  }
+
+  &__menu {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    min-width: 120px;
+    list-style: none;
+    margin: 0;
+    padding: 8px;
     
-    // Native select option styling
-    option {
-      background: #1f2937; // dark solid fallback
-      color: #ffffff;
+    // Glassmorphic Aesthetics
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    
+    // Scroll constraints for long lists
+    max-height: 250px;
+    overflow-y: auto;
+    
+    // Custom transparent scrollbar
+    &::-webkit-scrollbar {
+      width: 4px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 8px 0;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 10px;
+      &:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+    }
+
+    li {
+      color: white;
+      padding: 10px 14px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s, border-radius 0.2s;
+      
+      &:hover, &.selected {
+        background: rgba(255, 255, 255, 0.15);
+        border-radius: 8px;
+      }
     }
   }
 }
