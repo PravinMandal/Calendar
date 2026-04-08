@@ -42,7 +42,7 @@ const MONTH_IMAGES = [
 
 const MONTHLY_THEMES = [
   { url: 'https://picsum.photos/seed/january/900/400', color: '#77c9f0ff'},
-  { url: 'https://picsum.photos/seed/february/900/400', color: '#2ca617ff'},
+  { url: 'https://picsum.photos/seed/february/900/400', color: '#8f6b1eff'},
   { url: 'https://picsum.photos/seed/forest22/900/400', color: '#e479d1ff'},
   { url: 'https://picsum.photos/seed/dusk99/900/400', color: '#f8d94dff'},
   { url: 'https://picsum.photos/seed/blossom5/900/400', color: '#48b8ecff'},
@@ -84,6 +84,13 @@ function CalendarApp() {
     } catch (e) {
       console.error('Failed to load events:', e);
     }
+  }, []);
+
+  useEffect(() => {
+    MONTH_IMAGES.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
   }, []);
 
   const handleMonthChange = (newDate) => {
