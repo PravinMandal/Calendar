@@ -28,18 +28,18 @@ const INDIAN_EVENTS = [
 ];
 
 const MONTH_IMAGES = [
-  'https://images.unsplash.com/photo-1445543949571-ffc3e0e2f55e?auto=format&fit=crop&q=80&w=2000', // Jan
-  'https://images.unsplash.com/photo-1433162653888-a571db5ccccf?auto=format&fit=crop&q=80&w=2000', // Feb
-  'https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&q=80&w=2000', // Mar
-  'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&q=80&w=2000', // Apr
-  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000', // May
-  'https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?auto=format&fit=crop&q=80&w=2000', // Jun
-  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&q=80&w=2000', // Jul
-  'https://images.unsplash.com/photo-1440778303588-435521a205bc?auto=format&fit=crop&q=80&w=2000', // Aug
-  'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&q=80&w=2000', // Sep
-  'https://images.unsplash.com/photo-1476820865390-c52aeebb9891?auto=format&fit=crop&q=80&w=2000', // Oct
-  'https://images.unsplash.com/photo-1443890923422-7819ed4101c0?auto=format&fit=crop&q=80&w=2000', // Nov
-  'https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&q=80&w=2000'  // Dec
+  '/images/jan_bg.jpg',
+  '/images/feb_bg.jpg',
+  '/images/mar_bg.jpg',
+  '/images/apr_bg.jpg',
+  '/images/may_bg.jpg',
+  '/images/jun_bg.jpg',
+  '/images/jul_bg.jpg',
+  '/images/aug_bg.jpg',
+  '/images/sep_bg.jpg',
+  '/images/oct_bg.jpg',
+  '/images/nov_bg.jpg',
+  '/images/dec_bg.jpg'
 ];
 
 /**
@@ -262,12 +262,12 @@ function CalendarApp() {
 
   const renderCalendarPage = (monthDate, themeCol, hLabel, cImage, overlayType) => {
     const isOverlay = !!overlayType;
-    const props = isOverlay 
-      ? { ...calendarProps, currentMonth: monthDate, themeColor: themeCol } 
+    const props = isOverlay
+      ? { ...calendarProps, currentMonth: monthDate, themeColor: themeCol }
       : calendarProps;
 
     return (
-      <div 
+      <div
         className={`calendar-page ${isOverlay ? 'page-flipper ' + overlayType : ''}`}
         style={isOverlay ? { '--theme-color': themeCol } : {}}
       >
