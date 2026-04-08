@@ -41,18 +41,18 @@ const MONTH_IMAGES = [
 ];
 
 const MONTHLY_THEMES = [
-  { url: 'https://picsum.photos/seed/january/900/400', color: '#77c9f0ff', label: 'Alpine Lake' },
-  { url: 'https://picsum.photos/seed/february/900/400', color: '#2ca617ff', label: 'Desert Dunes' },
-  { url: 'https://picsum.photos/seed/forest22/900/400', color: '#e479d1ff', label: 'Forest Mist' },
-  { url: 'https://picsum.photos/seed/dusk99/900/400', color: '#f8d94dff', label: 'Dusk Shore' },
-  { url: 'https://picsum.photos/seed/blossom5/900/400', color: '#48b8ecff', label: 'Cherry Blossom' },
-  { url: 'https://picsum.photos/seed/golden7/900/400', color: '#eea527ff', label: 'Golden Fields' },
-  { url: 'https://picsum.photos/seed/ocean14/900/400', color: '#06b6d4', label: 'Ocean Horizon' },
-  { url: 'https://picsum.photos/seed/autumn8/900/400', color: '#42b6f4ff', label: 'Autumn Reds' },
-  { url: 'https://picsum.photos/seed/hills33/900/400', color: '#20bfdbff', label: 'Hillside Green' },
-  { url: 'https://picsum.photos/seed/winter6/900/400', color: '#e3d025ff', label: 'Winter Lake' },
-  { url: 'https://picsum.photos/seed/peaks11/900/400', color: '#bef6f3ff', label: 'Twilight Peaks' },
-  { url: 'https://picsum.photos/seed/snow42/900/400', color: '#9fd7faff', label: 'Snowy Pines' },
+  { url: 'https://picsum.photos/seed/january/900/400', color: '#77c9f0ff'},
+  { url: 'https://picsum.photos/seed/february/900/400', color: '#2ca617ff'},
+  { url: 'https://picsum.photos/seed/forest22/900/400', color: '#e479d1ff'},
+  { url: 'https://picsum.photos/seed/dusk99/900/400', color: '#f8d94dff'},
+  { url: 'https://picsum.photos/seed/blossom5/900/400', color: '#48b8ecff'},
+  { url: 'https://picsum.photos/seed/golden7/900/400', color: '#eea527ff'},
+  { url: 'https://picsum.photos/seed/ocean14/900/400', color: '#06b6d4'},
+  { url: 'https://picsum.photos/seed/autumn8/900/400', color: '#42b6f4ff'},
+  { url: 'https://picsum.photos/seed/hills33/900/400', color: '#20bfdbff'},
+  { url: 'https://picsum.photos/seed/winter6/900/400', color: '#e3d025ff'},
+  { url: 'https://picsum.photos/seed/peaks11/900/400', color: '#bef6f3ff'},
+  { url: 'https://picsum.photos/seed/snow42/900/400', color: '#9fd7faff'},
 ]
 
 function CalendarApp() {
