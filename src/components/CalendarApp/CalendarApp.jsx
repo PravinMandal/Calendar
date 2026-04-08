@@ -286,7 +286,7 @@ function CalendarApp() {
 
   return (
     <div
-      className="app-wrapper"
+      className={`app-wrapper ${flipAnimation ? 'is-animating' : ''}`}
       id="calendar-app"
       style={{ '--bg-image': `url(${currentMonthImage})` }}
     >
