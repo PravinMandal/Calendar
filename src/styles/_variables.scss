@@ -1,37 +1,26 @@
-// ============================================
-// _variables.scss — Design System Tokens
-// Physical Wall Calendar
-// ============================================
 
-// --- Google Fonts ---
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;600;700;800&display=swap');
 
 $font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 $font-display: 'Outfit', 'Inter', sans-serif;
 
-// --- Paper / Calendar Colors ---
 $paper-white:      #ffffff;
 $paper-off-white:  #fafaf8;
 $paper-cream:      #f5f0e8;
 $paper-light:      #f0ede6;
 
-$wall-color:       #d6d0c8;   // warm neutral wall
+$wall-color:       #d6d0c8;   
 
-$ink-dark:         #1a1a2e;   // main text — deep navy
-$ink-medium:       #4a4a6a;   // secondary text
-$ink-light:        #8a8aaa;   // muted / placeholders
-$ink-faint:        #c8c8d8;   // dividers
+$ink-dark:         #1a1a2e;   
+$ink-medium:       #4a4a6a;   
+$ink-light:        #8a8aaa;   
+$ink-faint:        #c8c8d8;   
 
-// --- Spiral / Binding ---
-$spiral-color:     #b0b0b0;   // metallic grey rings
-$spiral-hole:      #e0dbd0;   // punch holes in paper
+$spiral-color:     #b0b0b0;   
+$spiral-hole:      #e0dbd0;   
 
-// --- Theme Color (dynamic via CSS var) ---
-// Used as: var(--theme-color)
-// Default fallback defined in component inline style
 $theme-fallback:   #0ea5e9;
 
-// --- Shadows (paper on wall) ---
 $shadow-calendar:
   0 2px 4px  rgba(0, 0, 0, 0.06),
   0 8px 24px rgba(0, 0, 0, 0.12),
@@ -41,13 +30,11 @@ $shadow-calendar:
 $shadow-soft:      0 2px 12px rgba(0, 0, 0, 0.08);
 $shadow-inset:     inset 0 1px 3px rgba(0, 0, 0, 0.06);
 
-// --- Radius ---
-$radius-calendar:  4px;    // paper corners — very slight, like real paper
+$radius-calendar:  4px;    
 $radius-sm:        6px;
 $radius-md:        10px;
 $radius-pill:      999px;
 
-// --- Spacing Scale ---
 $space-xs:  4px;
 $space-sm:  8px;
 $space-md:  16px;
@@ -55,12 +42,10 @@ $space-lg:  24px;
 $space-xl:  32px;
 $space-2xl: 48px;
 
-// --- Breakpoints ---
 $bp-mobile:  480px;
 $bp-tablet:  768px;
 $bp-desktop: 1024px;
 
-// --- Transitions ---
 $transition-fast:   all 0.15s ease;
 $transition-base:   all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 $transition-bounce: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);

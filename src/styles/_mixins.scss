@@ -1,22 +1,14 @@
-// ============================================
-// _mixins.scss — Reusable SCSS Mixins
-// Physical Wall Calendar
-// ============================================
 @use 'variables' as *;
 
-// --- Paper Card (replaces glass) ---
 @mixin paper($bg: $paper-white) {
   background: $bg;
   border-radius: $radius-calendar;
 }
 
-// --- Theme-colored element ---
-// Uses the CSS custom property injected by CalendarApp
 @mixin theme-bg($alpha: 1) {
   background: rgba(var(--theme-color-rgb), #{$alpha});
 }
 
-// --- Responsive Breakpoints ---
 @mixin mobile {
   @media (max-width: #{$bp-tablet - 1px}) { @content; }
 }
@@ -29,28 +21,24 @@
   @media (min-width: #{$bp-desktop}) { @content; }
 }
 
-// --- Flex Center ---
 @mixin flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-// --- Truncate ---
 @mixin truncate {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-// --- Hide Scrollbar ---
 @mixin hide-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
   &::-webkit-scrollbar { display: none; }
 }
 
-// --- Divider line ---
 @mixin divider($color: $ink-faint) {
   border: none;
   border-top: 1px solid $color;

@@ -1,10 +1,6 @@
-// ============================================
-// CalendarApp.scss — Physical Wall Calendar Layout
-// ============================================
 @use '../../styles/variables' as *;
 @use '../../styles/mixins' as *;
 
-// ── 1. App Wrapper — the "wall" ──────────────────────────────────────────────
 .app-wrapper {
   position: relative;
   min-height: 100vh;
@@ -16,10 +12,9 @@
   justify-content: center;
   padding: $space-2xl $space-lg;
 
-  // Layer 1: App wrapper background image with blur
   &::before {
     content: '';
-    position: fixed; // keeps blurred background perfectly locked when scrolling
+    position: fixed; 
     top: -20px;
     left: -20px;
     right: -20px;
@@ -37,7 +32,6 @@
   }
 }
 
-// ── 2. Wall Calendar — "Light Glass" ─────────────────────────────────────────
 .wall-calendar {
   position: relative;
   width: 100%;
@@ -45,7 +39,6 @@
   height: 90vh;
   min-height: 700px;
 
-  // Default Scale Down trick for huge screen fit mapping
   transform: scale(0.9);
   transform-origin: center center;
 
@@ -53,11 +46,9 @@
     transform: none;
   }
 
-  // Flex layout to make children scale to fit
   display: flex;
   flex-direction: column;
 
-  // Layer 2: Main Shell Light Glass Effect
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -66,12 +57,10 @@
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
   overflow: hidden;
 
-  // Let the paper tear drop completely off the boundary!
   &.is-animating {
     overflow: visible;
   }
 
-  // Entrance animation
   animation: scaleIn 0.7s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
 
   @include mobile {
@@ -83,7 +72,6 @@
   }
 }
 
-// ── 3. Spiral Binding ────────────────────────────────────────────────────────
 .spiral-binding {
   position: absolute;
   top: -20px;
@@ -112,7 +100,6 @@
   align-items: center;
   justify-content: center;
 
-  // The metal ring loop — rendered with box-shadow technique
   &::before,
   &::after {
     content: '';
@@ -126,14 +113,12 @@
       0 1px 3px rgba(0, 0, 0, 0.25);
   }
 
-  // Top half of ring (above paper)
   &::before {
     top: 0;
     border-bottom-color: transparent;
     background: linear-gradient(to bottom, #c8c8c8, #a8a8a8);
   }
 
-  // Bottom half of ring (below paper / passing through)
   &::after {
     bottom: 0;
     border-top-color: transparent;
@@ -154,7 +139,6 @@
 }
 
 .spiral-binding__hole {
-  // Punch hole through the paper — visible between ring halves
   position: absolute;
   top: 50%;
   left: 50%;
@@ -167,11 +151,10 @@
   z-index: 2;
 }
 
-// ── 4. Hero Image Section ────────────────────────────────────────────────────
 .calendar-hero {
   position: relative;
   width: 100%;
-  flex: 0 0 40%; // Occupies top 40% of the wall calendar
+  flex: 0 0 40%; 
   overflow: hidden;
   border-radius: $radius-calendar $radius-calendar 0 0;
 
@@ -180,7 +163,6 @@
     flex: none;
   }
 
-  // "Nail" tab at top center — the thing the calendar hangs from
   &::before {
     content: '';
     position: absolute;
@@ -210,29 +192,23 @@
   }
 }
 
-// Gradient fade at bottom — blends hero into glass panels
 .calendar-hero__overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   height: 150px;
-  /* Increased height for a smoother fade */
 
-  /* The actual blur */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 
-  /* The gradient mask that makes the blur fade */
   mask-image: linear-gradient(to top, black 20%, transparent 100%);
   -webkit-mask-image: linear-gradient(to top, black 20%, transparent 100%);
 
-  /* A very subtle dark gradient to ensure text readability */
   background: linear-gradient(to top, rgba(0, 0, 0, 0.5) 0%, transparent 100%);
   pointer-events: none;
 }
 
-// Month / Year badge — bottom-left of hero image
 .calendar-hero__badge {
   position: absolute;
   bottom: $space-md;
@@ -278,7 +254,6 @@
   }
 }
 
-// Small image credit tag — bottom right of hero
 .calendar-hero__credit {
   position: absolute;
   bottom: $space-sm;
@@ -291,14 +266,13 @@
   z-index: 2;
 }
 
-// ── 5. Calendar Body ─────────────────────────────────────────────────────────
 .calendar-body {
   display: grid;
   grid-template-columns: 250px minmax(0, 1fr) 250px;
   align-items: stretch;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  flex: 1; // Occupies remaining 60%
-  overflow: hidden; // Keep constraints tight here
+  flex: 1; 
+  overflow: hidden; 
   padding: $space-md;
   gap: $space-md;
 
@@ -311,20 +285,18 @@
   }
 }
 
-// ── 5a. Sidebar (Notes/Events) ─────────────────────────────────────────
 .calendar-body__sidebar {
-  flex-shrink: 0; // Prevent squishing
+  flex-shrink: 0; 
 
   padding: $space-lg $space-md $space-lg $space-lg;
 
-  // Layer 3: Dark Glass
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
-  box-sizing: border-box; // Fix grid overflow
+  box-sizing: border-box; 
   overflow: hidden;
 
   display: flex;
@@ -337,31 +309,28 @@
   }
 }
 
-// ── 5b. Vertical Divider ─────────────────────────────────────────────────────
 .calendar-body__divider {
-  display: none; // No longer needed with the dark glass panels gap approach
+  display: none; 
 }
 
-// ── 5c. Main Calendar Area — right ~70% ──────────────────────────────────────
 .calendar-body__main {
   flex: 1;
   min-width: 0;
   padding: $space-lg $space-xl $space-xl $space-lg;
 
-  // Layer 3: Dark Glass
   background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
-  box-sizing: border-box; // Fix grid overflow
+  box-sizing: border-box; 
   overflow: hidden;
 
   display: flex;
   flex-direction: column;
   gap: $space-md;
-  padding-bottom: 20px; // ensure adequate padding at bottom
+  padding-bottom: 20px; 
 
   @include mobile {
     height: auto;
@@ -370,14 +339,12 @@
   }
 }
 
-// Thin horizontal rule between header and grid inside main panel
 .calendar-body__rule {
   border: none;
   border-top: 1px solid rgba(255, 255, 255, 0.15);
   margin: 0;
 }
 
-// ── 6. Placeholder styles (removed once real components slot in) ─────────────
 .placeholder {
   @include flex-center;
   flex-direction: column;
@@ -414,7 +381,6 @@
   }
 }
 
-// ── 7. Keyframes ─────────────────────────────────────────────────────────────
 @keyframes calendarHang {
   from {
     opacity: 0;

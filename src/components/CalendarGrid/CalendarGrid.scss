@@ -6,7 +6,7 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  min-height: 0; // Fixes grid spillover
+  min-height: 0; 
 
   &__weekdays {
     display: grid;
@@ -18,7 +18,7 @@
   &__weekday-label {
     font-size: 0.75rem;
     font-weight: 700;
-    color: var(--theme-color); // Styled with theme color as requested
+    color: var(--theme-color); 
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: $space-sm 0;
@@ -27,7 +27,7 @@
   &__days {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, minmax(0, 1fr)); // Mathematically divide, absolutely no scroll
+    grid-template-rows: repeat(6, minmax(0, 1fr)); 
     gap: 2px;
     flex: 1;
   }
@@ -43,7 +43,6 @@
     color: #ffffff;
     z-index: 1;
 
-    // Hover effect delegated to the circle
     &:hover:not(.calendar-grid__day--outside):not(.calendar-grid__day--range-start):not(.calendar-grid__day--range-end) {
       .calendar-grid__day-number {
         background: rgba(255, 255, 255, 0.1);
@@ -79,15 +78,14 @@
   &__holiday-dot {
     width: 4px;
     height: 4px;
-    background-color: #f87171; // Red dot as requested
+    background-color: #f87171; 
     border-radius: 50%;
     
     &.custom {
-      background-color: var(--theme-color); // custom events match theme
+      background-color: var(--theme-color); 
     }
   }
 
-  // ── Floating Range Badge ───────────────────────────────────────────────────
   &__range-badge {
     position: absolute;
     bottom: $space-md;
@@ -108,7 +106,6 @@
     animation: badgePop 0.3s cubic-bezier(0.34, 1.3, 0.64, 1) forwards;
   }
 
-  // State Modifiers
   &__day--outside {
     color: rgba(255, 255, 255, 0.4);
     opacity: 0.3;
@@ -124,7 +121,7 @@
     
     &.calendar-grid__day--selected .calendar-grid__day-number,
     &.calendar-grid__day--selected-single .calendar-grid__day-number {
-       box-shadow: none; // Remove outline when selected
+       box-shadow: none; 
     }
   }
 
@@ -134,9 +131,8 @@
     }
   }
 
-  // Range Styles
   &__day--in-range {
-    background: rgba(255, 255, 255, 0.05); // continuous pill background
+    background: rgba(255, 255, 255, 0.05); 
     color: #ffffff;
   }
 

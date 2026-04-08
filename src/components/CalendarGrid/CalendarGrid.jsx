@@ -42,13 +42,11 @@ export default function CalendarGrid({
     try { return isSameMonth(dateLeft, dateRight); } catch (e) { return false; }
   };
 
-  // Generate days of the week header (MON-SUN)
   const weekDays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
 
-  // Calculate the dates to display on the grid
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
-  const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 }); // Monday start
+  const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 }); 
   const gridEnd = endOfWeek(monthEnd, { weekStartsOn: 1 });
 
   let gridDays = [];
@@ -61,11 +59,9 @@ export default function CalendarGrid({
     gridDays = [];
   }
 
-  // Helper functions for styling days based on selection
   const isSelectedStart = (date) => selectionStart && safeIsSameDay(date, selectionStart);
   const isSelectedEnd = (date) => selectionEnd && safeIsSameDay(date, selectionEnd);
   
-  // Is this date exactly the start or end date?
   const isSelected = (date) => isSelectedStart(date) || isSelectedEnd(date);
   const isSelectedRange = (date) => {
     try {
@@ -76,7 +72,7 @@ export default function CalendarGrid({
              && !safeIsSameDay(date, start) 
              && !safeIsSameDay(date, end);
     } catch (error) {
-      return false; // Fail silently, don't crash the app
+      return false; 
     }
   };
 
@@ -91,7 +87,7 @@ export default function CalendarGrid({
 
   return (
     <div className="calendar-grid">
-      {/* Weekday Header Row */}
+      {}
       <div className="calendar-grid__weekdays">
         {weekDays.map(day => (
           <div key={day} className="calendar-grid__weekday-label">
@@ -100,7 +96,7 @@ export default function CalendarGrid({
         ))}
       </div>
 
-      {/* Days Grid */}
+      {}
       <div className="calendar-grid__days" onMouseLeave={() => setHoverDate(null)}>
         {gridDays.map((date) => {
           const isCurrentMonth = safeIsSameMonth(date, currentMonth);
@@ -123,18 +119,14 @@ export default function CalendarGrid({
           const getEventsForDay = (day) => {
             const dayEvents = [];
 
-            // Filter Custom Events correctly
             customEvents.forEach(event => {
               if (event.isRecurring) {
-                // If recurring, match MM-dd
                 const evMMdd = format(new Date(event.date), 'MM-dd');
                 const dayMMdd = format(day, 'MM-dd');
-                // Both handle MM-dd naturally or mapping strings natively
                 if (evMMdd === dayMMdd || event.date === dayMMdd) {
                   dayEvents.push(event);
                 }
               } else {
-                // Non recurring
                 if (safeIsSameDay(day, new Date(event.date))) {
                   dayEvents.push(event);
                 }
@@ -150,20 +142,16 @@ export default function CalendarGrid({
             clearTimeout(window._clickTimer);
 
             if (e.detail === 1) {
-              // Wait slightly to see if a double click follows it
               window._clickTimer = setTimeout(() => {
                 if (isSelectingMode) {
-                  // Finish Range
                   setIsSelectingMode(false); 
                 } else {
-                  // Reset/Select Day
                   setSelectionStart(null);
                   setSelectionEnd(null);
                   setSelectedDate(date);
                 }
               }, 250);
             } else if (e.detail === 2) {
-              // Exact Double click logic
               setIsSelectingMode(true);
               setSelectionStart(date);
               setSelectionEnd(null);
@@ -202,7 +190,7 @@ export default function CalendarGrid({
         })}
       </div>
 
-      {/* Selected Days Badge */}
+      {}
       {selectedDaysCount > 0 && (
         <div className="calendar-grid__range-badge">
           {selectedDaysCount} day{selectedDaysCount !== 1 ? 's' : ''} selected

@@ -13,7 +13,7 @@ export default function EventModal({ onClose, onSave, initialDate = '' }) {
     onSave({
       id: Date.now().toString(),
       title,
-      date, // standard YYYY-MM-DD
+      date, 
       type: 'user',
       isRecurring
     });

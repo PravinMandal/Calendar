@@ -71,7 +71,6 @@
         border-color: var(--theme-color, rgba(255, 255, 255, 0.8));
       }
 
-      /* Webkit date picker icons fix */
       &::-webkit-calendar-picker-indicator {
         filter: invert(1);
         cursor: pointer;

@@ -7,29 +7,24 @@ import './SidebarPanel.scss';
 export default function SidebarPanel({ currentMonth, themeColor, customEvents = [], openEventModal, selectedDate, onDeleteEvent }) {
   const [notes, setNotes] = useState('');
 
-  // The localstorage key depends on the viewed month
   const storageKey = `calendar-notes-${format(currentMonth, 'MM-yyyy')}`;
 
-  // Load notes when the month changes
   useEffect(() => {
     const savedNotes = localStorage.getItem(storageKey);
     setNotes(savedNotes || '');
   }, [storageKey]);
 
-  // Save notes to localStorage whenever they change
   const handleNotesChange = (e) => {
     const newNotes = e.target.value;
     setNotes(newNotes);
     localStorage.setItem(storageKey, newNotes);
   };
 
-  // Fallback to today if selectedDate is null (e.g. during range selection)
   const safeDate = selectedDate || new Date();
 
   const monthHolidays = getHolidaysForMonth(currentMonth.getMonth());
   const selectedDateHolidays = monthHolidays.filter(h => h.date === safeDate.getDate() && currentMonth.getMonth() === safeDate.getMonth());
   
-  // Filter events to ONLY those matching safeDate
   const selectedDateEvents = [];
   
   customEvents.forEach(ev => {
@@ -61,7 +56,6 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
   const allSelectedEvents = [...selectedDateHolidays, ...parsedEvents].sort((a, b) => a.date - b.date);
 
   const uniqueEvents = allSelectedEvents.reduce((acc, current) => {
-    // Both Indian holidays (.name) and parsed custom events use the .name property here
     const titleToUse = current.name || '';
     const normalizedTitle = titleToUse.toLowerCase().replace(' day', '').trim();
     
@@ -73,7 +67,6 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
     if (duplicateIndex === -1) {
       return acc.concat([current]);
     } else {
-      // Prefer user-created events over hardcoded ones if there's a duplicate
       if (current.type === 'user') {
         const newAcc = [...acc];
         newAcc[duplicateIndex] = current;
@@ -86,7 +79,7 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
   return (
     <div className="sidebar-panel">
       
-      {/* Dynamic theme color border at the top of notes area to tie it together */}
+      {}
       <div 
         className="sidebar-panel__header"
         style={{ borderBottom: `2px solid var(--theme-color)` }}
@@ -105,7 +98,7 @@ export default function SidebarPanel({ currentMonth, themeColor, customEvents = 
         aria-label="Monthly notes"
       />
 
-      {/* Events / Holidays Section */}
+      {}
       <div className="sidebar-panel__events">
         <div 
           className="sidebar-panel__header"

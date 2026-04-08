@@ -1,18 +1,12 @@
-// ============================================
-// global.scss — Global Reset & Base Styles
-// Physical Wall Calendar Aesthetic
-// ============================================
 @use 'variables' as *;
 @use 'mixins' as *;
 
-// --- CSS Reset ---
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-// --- Root & Body ---
 :root {
   font-family: $font-primary;
   font-size: 16px;
@@ -38,7 +32,6 @@ body {
   overflow-x: hidden;
 }
 
-// --- Typography Scale ---
 h1, h2, h3, h4, h5, h6 {
   font-family: $font-display;
   font-weight: 600;
@@ -65,15 +58,14 @@ input, textarea, select {
   opacity: 0.6;
   transition: all 0.2s;
   cursor: pointer;
-  margin-left: auto; // pushes it far right in a flex container 
+  margin-left: auto; 
 
   &:hover {
-    color: #ef4444; // Target red styling for explicit deletion confirmation
+    color: #ef4444; 
     opacity: 1;
   }
 }
 
-// --- Scrollbar Styling ---
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
@@ -82,7 +74,6 @@ input, textarea, select {
   &:hover { background: rgba(0, 0, 0, 0.30); }
 }
 
-// --- Global Keyframes ---
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }

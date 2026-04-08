@@ -8,7 +8,6 @@ import EventModal from '../EventModal/EventModal'
 import './CalendarApp.scss'
 
 const INDIAN_EVENTS = [
-  // National Holidays
   { id: 'ind-1', title: 'Republic Day', date: '01-26', type: 'national', isRecurring: true },
   { id: 'ind-2', title: 'Independence Day', date: '08-15', type: 'national', isRecurring: true },
   { id: 'ind-3', title: 'Gandhi Jayanti', date: '10-02', type: 'national', isRecurring: true },
@@ -17,7 +16,6 @@ const INDIAN_EVENTS = [
   { id: 'ind-12', title: 'Dussehra', date: '10-12', type: 'national', isRecurring: true },
   { id: 'ind-13', title: 'Diwali', date: '11-01', type: 'national', isRecurring: true },
 
-  // Observances
   { id: 'ind-4', title: 'New Year', date: '01-01', type: 'observance', isRecurring: true },
   { id: 'ind-5', title: "Valentine's Day", date: '02-14', type: 'observance', isRecurring: true },
   { id: 'ind-6', title: 'May Day', date: '05-01', type: 'observance', isRecurring: true },
@@ -42,23 +40,6 @@ const MONTH_IMAGES = [
   '/images/dec_bg.jpg'
 ];
 
-/**
- * CalendarApp — Physical wall calendar root component
- *
- * State:
- *   currentMonth   — Date representing viewed month/year
- *   selectionStart — Date | null — range start
- *   selectionEnd   — Date | null — range end
- *   hoverDate      — Date | null — live hover preview for range
- *   themeColor     — hex string injected as --theme-color CSS var
- *
- * The themeColor drives ALL accent colors in child components via
- * `var(--theme-color)` — buttons, selected day highlight, notes header, etc.
- * In Phase 5 this will be auto-derived from the hero image dominant color.
- */
-
-// Curated monthly themes — hero image (picsum.photos — reliable seeded IDs)
-// Paired with a matching accent color. Index 0 = January … 11 = December
 const MONTHLY_THEMES = [
   { url: 'https://picsum.photos/seed/january/900/400', color: '#77c9f0ff', label: 'Alpine Lake' },
   { url: 'https://picsum.photos/seed/february/900/400', color: '#2ca617ff', label: 'Desert Dunes' },
@@ -77,7 +58,6 @@ const MONTHLY_THEMES = [
 function CalendarApp() {
   const today = new Date()
 
-  // Pick theme based on current month index (0–11)
   const monthIndex = today.getMonth()
   const initialTheme = MONTHLY_THEMES[monthIndex]
 
@@ -106,7 +86,6 @@ function CalendarApp() {
     }
   }, []);
 
-  // ── Handlers (wired up in later phases) ──────────────────────────────────
   const handleMonthChange = (newDate) => {
     if (newDate.getTime() === currentMonth.getTime()) return;
     if (flipAnimation) return;
@@ -115,14 +94,13 @@ function CalendarApp() {
     const newIdx = newDate.getMonth();
     const newTheme = MONTHLY_THEMES[newIdx];
 
-    // Safety clear active dragging selections on month flips
     setSelectionStart(null);
     setSelectionEnd(null);
     setIsSelectingMode(false);
     setSelectedDate(startOfMonth(newDate));
 
     if (isNext) {
-      // ── TEAR OFF (Next) ──
+
       setFlipAnimation({
         type: 'tear-off',
         data: {
@@ -133,7 +111,6 @@ function CalendarApp() {
         }
       });
 
-      // Update main background immediately
       setCurrentMonth(newDate);
       setThemeColor(newTheme.color);
       setHeroUrl(newTheme.url);
@@ -143,8 +120,7 @@ function CalendarApp() {
         setFlipAnimation(null);
       }, 800);
     } else {
-      // ── REATTACH (Prev) ──
-      // Render the incoming new month overlay flying up
+
       setFlipAnimation({
         type: 'reattach',
         data: {
@@ -155,7 +131,6 @@ function CalendarApp() {
         }
       });
 
-      // Update the main background only *after* animation attaches
       setTimeout(() => {
         setCurrentMonth(newDate);
         setThemeColor(newTheme.color);
@@ -167,7 +142,7 @@ function CalendarApp() {
   }
 
   const handleDateClickForEvent = (date) => {
-    // Format date properly for the native input type="date"
+
     const formattedDate = [
       date.getFullYear(),
       String(date.getMonth() + 1).padStart(2, '0'),
@@ -196,21 +171,16 @@ function CalendarApp() {
     const viewedYear = currentMonth.getFullYear();
 
     if (event.isRecurring || event.type === 'national' || event.type === 'observance') {
-      // It's a recurring event. Safely extract Month and Day.
       let month, day;
       if (typeof event.date === 'string' && event.date.length === 5 && event.date.includes('-')) {
-        // Hardcoded 'MM-dd' format
         [month, day] = event.date.split('-');
       } else {
-        // User created recurring event (ISO string)
         const d = new Date(event.date);
         month = d.getMonth() + 1;
         day = d.getDate();
       }
-      // Construct target date using the CURRENTLY VIEWED year
       targetDate = new Date(viewedYear, parseInt(month) - 1, parseInt(day));
     } else {
-      // One-time event. Jump to its exact specific year and date.
       targetDate = new Date(event.date);
     }
 
@@ -229,7 +199,7 @@ function CalendarApp() {
   const handleDeleteEvent = (eventToDelete) => {
     const updatedEvents = customEvents.filter(ev => {
       if (eventToDelete.id && ev.id) return ev.id !== eventToDelete.id;
-      return ev.title !== eventToDelete.name; // fallback for parsed/hydrated UI lists using .name mapped from .title
+      return ev.title !== eventToDelete.name; 
     });
     setCustomEvents(updatedEvents);
     localStorage.setItem('calendar-custom-events', JSON.stringify(updatedEvents));
@@ -237,7 +207,6 @@ function CalendarApp() {
 
   const allEvents = [...INDIAN_EVENTS, ...customEvents];
 
-  // Shared props object passed to children in later phases
   const calendarProps = {
     currentMonth, onMonthChange: handleMonthChange, onToday: handleTodayClick,
     selectionStart, selectionEnd, hoverDate, setSelectionStart, setSelectionEnd, setHoverDate,
@@ -271,7 +240,7 @@ function CalendarApp() {
         className={`calendar-page ${isOverlay ? 'page-flipper ' + overlayType : ''}`}
         style={isOverlay ? { '--theme-color': themeCol } : {}}
       >
-        {/* ── HERO IMAGE SECTION ──────────────────────────────────────── */}
+        {}
         <div className="calendar-hero">
           <img
             src={cImage}
@@ -291,7 +260,7 @@ function CalendarApp() {
           <span className="calendar-hero__credit">{hLabel}</span>
         </div>
 
-        {/* ── CALENDAR BODY ───────────────────────────────────────────── */}
+        {}
         <div className="calendar-body">
           <aside className="calendar-body__sidebar" aria-label="Notes panel">
             <SidebarPanel {...props} />
@@ -322,8 +291,6 @@ function CalendarApp() {
       style={{ '--bg-image': `url(${currentMonthImage})` }}
     >
 
-      {/* ── WALL CALENDAR ─────────────────────────────────────────────── */}
-      {/* themeColor injected as a CSS custom property for all children   */}
       <div
         className={`wall-calendar ${flipAnimation ? 'is-animating' : ''}`}
         style={{ '--theme-color': themeColor }}
@@ -331,7 +298,7 @@ function CalendarApp() {
         aria-label="Interactive Wall Calendar"
       >
 
-        {/* ── SPIRAL BINDING ──────────────────────────────────────────── */}
+        {}
         <div className="spiral-binding" aria-hidden="true">
           {Array.from({ length: 14 }).map((_, i) => (
             <div key={i} className="spiral-binding__ring">
@@ -341,10 +308,10 @@ function CalendarApp() {
         </div>
 
         <div className="calendar-page-container">
-          {/* Current (New) Static Page */}
+          {}
           {renderCalendarPage(currentMonth, themeColor, heroLabel, currentMonthImage, null)}
 
-          {/* Flipping Animated Page (Overlay) */}
+          {}
           {flipAnimation &&
             renderCalendarPage(
               flipAnimation.data.monthDate,
@@ -365,7 +332,7 @@ function CalendarApp() {
         )}
 
       </div>
-      {/* end .wall-calendar */}
+      {}
 
     </div>
   )

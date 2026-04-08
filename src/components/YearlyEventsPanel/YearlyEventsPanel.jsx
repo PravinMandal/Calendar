@@ -4,19 +4,15 @@ import { Trash2 } from 'lucide-react';
 import './YearlyEventsPanel.scss';
 
 export default function YearlyEventsPanel({ customEvents = [], currentMonth, themeColor, onEventClick, onDeleteEvent }) {
-  // Sort all events chronologically
   const sortedEvents = [...customEvents].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
-  // Filter events to only show ones in the currently viewed month
   const upcomingEvents = sortedEvents.filter(ev => {
     if (!ev.date) return false;
     
     let evMonthIdx;
     if (ev.isRecurring && ev.date.length === 5) {
-      // MM-dd pattern
       evMonthIdx = parseInt(ev.date.split('-')[0], 10) - 1;
     } else {
-      // YYYY-MM-DD pattern
       evMonthIdx = parseInt(ev.date.split('-')[1], 10) - 1;
     }
 
@@ -34,7 +30,7 @@ export default function YearlyEventsPanel({ customEvents = [], currentMonth, the
 
       <div className="events-scroll-container">
         
-        {/* Section 1: Upcoming (This Month) */}
+        {}
         <div className="yearly-events-panel__section">
           <h3 className="yearly-events-panel__subtitle">Upcoming</h3>
           {upcomingEvents.length > 0 ? (
@@ -72,7 +68,7 @@ export default function YearlyEventsPanel({ customEvents = [], currentMonth, the
           )}
         </div>
 
-        {/* Section 2: Yearly Calendar */}
+        {}
         <div className="yearly-events-panel__section" style={{ marginTop: '24px' }}>
           <h3 className="yearly-events-panel__subtitle">Yearly Calendar</h3>
           {sortedEvents.length > 0 ? (
