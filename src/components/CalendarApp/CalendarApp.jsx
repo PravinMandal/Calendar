@@ -74,6 +74,7 @@ function CalendarApp() {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSelectingMode, setIsSelectingMode] = useState(false)
   const [selectedEventDate, setSelectedEventDate] = useState('')
+  const [cachedImages, setCachedImages] = useState(MONTH_IMAGES)
 
   useEffect(() => {
     try {
@@ -86,11 +87,35 @@ function CalendarApp() {
     }
   }, []);
 
+  // Preload and permanently cache background images using native Cache Storage API
   useEffect(() => {
-    MONTH_IMAGES.forEach((src) => {
-      const img = new Image();
-      img.src = src;
-    });
+    let mounted = true;
+    const cacheAndLoadBlobs = async () => {
+      try {
+        const cache = await caches.open('calendar-backgrounds');
+        const newImages = [...MONTH_IMAGES];
+        
+        await Promise.all(MONTH_IMAGES.map(async (url, idx) => {
+          let response = await cache.match(url);
+          if (!response) {
+            await cache.add(url);
+            response = await cache.match(url);
+          }
+          if (response) {
+            const blob = await response.blob();
+            if (mounted) {
+              newImages[idx] = URL.createObjectURL(blob);
+              setCachedImages([...newImages]);
+            }
+          }
+        }));
+      } catch (err) {
+        console.error('Failed to access Cache storage:', err);
+      }
+    };
+    cacheAndLoadBlobs();
+    
+    return () => { mounted = false; };
   }, []);
 
   const handleMonthChange = (newDate) => {
@@ -114,7 +139,7 @@ function CalendarApp() {
           monthDate: currentMonth,
           themeColor: themeColor,
           heroLabel: heroLabel,
-          image: MONTH_IMAGES[currentMonth.getMonth()]
+          image: cachedImages[currentMonth.getMonth()]
         }
       });
 
@@ -134,7 +159,7 @@ function CalendarApp() {
           monthDate: newDate,
           themeColor: newTheme.color,
           heroLabel: newTheme.label,
-          image: MONTH_IMAGES[newIdx]
+          image: cachedImages[newIdx]
         }
       });
 
@@ -234,7 +259,7 @@ function CalendarApp() {
     }
   }
 
-  const currentMonthImage = MONTH_IMAGES[currentMonth.getMonth()];
+  const currentMonthImage = cachedImages[currentMonth.getMonth()];
 
   const renderCalendarPage = (monthDate, themeCol, hLabel, cImage, overlayType) => {
     const isOverlay = !!overlayType;
