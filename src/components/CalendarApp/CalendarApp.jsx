@@ -325,7 +325,7 @@ function CalendarApp() {
       {/* ── WALL CALENDAR ─────────────────────────────────────────────── */}
       {/* themeColor injected as a CSS custom property for all children   */}
       <div
-        className="wall-calendar"
+        className={`wall-calendar ${flipAnimation ? 'is-animating' : ''}`}
         style={{ '--theme-color': themeColor }}
         role="application"
         aria-label="Interactive Wall Calendar"
