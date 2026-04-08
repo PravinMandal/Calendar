@@ -322,6 +322,12 @@ function CalendarApp() {
       id="calendar-app"
       style={{ '--bg-image': `url(${currentMonthImage})` }}
     >
+      {/* Hidden preloader block to force browser to rasterize and hold all blobs in VRAM avoiding decode flicker */}
+      <div style={{ position: 'absolute', width: 0, height: 0, overflow: 'hidden', opacity: 0, pointerEvents: 'none' }}>
+        {cachedImages.map((src, i) => (
+          <img key={i} src={src} alt="preload" />
+        ))}
+      </div>
 
       <div
         className={`wall-calendar ${flipAnimation ? 'is-animating' : ''}`}
