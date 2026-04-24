@@ -5,6 +5,7 @@ import YearlyEventsPanel from '../YearlyEventsPanel/YearlyEventsPanel'
 import CalendarHeader from '../CalendarHeader/CalendarHeader'
 import CalendarGrid from '../CalendarGrid/CalendarGrid'
 import EventModal from '../EventModal/EventModal'
+import ReminderModal from '../ReminderModal/ReminderModal'
 import './CalendarApp.scss'
 
 const INDIAN_EVENTS = [
@@ -75,6 +76,9 @@ function CalendarApp() {
   const [isSelectingMode, setIsSelectingMode] = useState(false)
   const [selectedEventDate, setSelectedEventDate] = useState('')
   const [cachedImages, setCachedImages] = useState(MONTH_IMAGES)
+  const [notificationCount, setNotificationCount] = useState(0)
+  const [activeReminder, setActiveReminder] = useState(null)
+  const notifiedEventsRef = React.useRef(new Set())
 
   useEffect(() => {
     try {
@@ -117,6 +121,57 @@ function CalendarApp() {
     
     return () => { mounted = false; };
   }, []);
+
+  // Tab menu notification badge
+  useEffect(() => {
+    document.title = notificationCount > 0 
+      ? `(${notificationCount}) Calendar — Interactive Wall Calendar`
+      : 'Calendar — Interactive Wall Calendar';
+  }, [notificationCount]);
+
+  // Time-based reminder modal hook
+  useEffect(() => {
+    const checkReminders = () => {
+      const now = new Date();
+      const currentDateStr = [
+        now.getFullYear(),
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0')
+      ].join('-');
+      
+      const currentMonthDayStr = [
+        String(now.getMonth() + 1).padStart(2, '0'),
+        String(now.getDate()).padStart(2, '0')
+      ].join('-');
+
+      const currentTimeStr = [
+        String(now.getHours()).padStart(2, '0'),
+        String(now.getMinutes()).padStart(2, '0')
+      ].join(':');
+
+      customEvents.forEach(event => {
+        if (!event.time) return;
+
+        const isDateMatch = event.isRecurring 
+          ? event.date.endsWith(currentMonthDayStr) 
+          : event.date === currentDateStr;
+
+        if (isDateMatch && event.time === currentTimeStr) {
+          const eventKey = `${event.id}-${currentDateStr}-${currentTimeStr}`;
+          
+          if (!notifiedEventsRef.current.has(eventKey)) {
+            notifiedEventsRef.current.add(eventKey);
+            setNotificationCount(prev => prev + 1);
+            setActiveReminder(event);
+          }
+        }
+      });
+    };
+
+    // Wait exactly 60 seconds (1 minute) per tick as requested
+    const intervalId = setInterval(checkReminders, 60000);
+    return () => clearInterval(intervalId);
+  }, [customEvents]);
 
   const handleMonthChange = (newDate) => {
     if (newDate.getTime() === currentMonth.getTime()) return;
@@ -366,6 +421,13 @@ function CalendarApp() {
             onClose={() => setIsModalOpen(false)}
             onSave={handleAddCustomEvent}
             initialDate={selectedEventDate}
+          />
+        )}
+
+        {activeReminder && (
+          <ReminderModal 
+            event={activeReminder} 
+            onClose={() => setActiveReminder(null)} 
           />
         )}
 

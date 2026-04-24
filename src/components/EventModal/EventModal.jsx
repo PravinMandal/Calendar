@@ -4,16 +4,24 @@ import './EventModal.scss';
 export default function EventModal({ onClose, onSave, initialDate = '' }) {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState(initialDate);
+  const [time, setTime] = useState('');
   const [isRecurring, setIsRecurring] = useState(false);
 
   const handleSave = (e) => {
     e.preventDefault();
     if (!title || !date) return;
     
+    if (time && 'Notification' in window) {
+      if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        Notification.requestPermission();
+      }
+    }
+
     onSave({
       id: Date.now().toString(),
       title,
       date, 
+      time: time || undefined,
       type: 'user',
       isRecurring
     });
@@ -48,6 +56,16 @@ export default function EventModal({ onClose, onSave, initialDate = '' }) {
               value={date} 
               onChange={(e) => setDate(e.target.value)}
               required
+            />
+          </div>
+
+          <div className="event-modal__field">
+            <label htmlFor="event-time">Time (Optional)</label>
+            <input 
+              type="time" 
+              id="event-time"
+              value={time} 
+              onChange={(e) => setTime(e.target.value)}
             />
           </div>
           
