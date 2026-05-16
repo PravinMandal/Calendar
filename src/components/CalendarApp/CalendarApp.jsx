@@ -168,8 +168,8 @@ function CalendarApp() {
       });
     };
 
-    // Wait exactly 60 seconds (1 minute) per tick as requested
-    const intervalId = setInterval(checkReminders, 60000);
+    // Check exactly every 1 second to ensure the reminder pops up immediately on the minute mark
+    const intervalId = setInterval(checkReminders, 1000);
     return () => clearInterval(intervalId);
   }, [customEvents]);
 
